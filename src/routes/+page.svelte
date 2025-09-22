@@ -628,6 +628,7 @@
     width: 100vw;
     padding: 3rem 2rem;
     background: linear-gradient(to bottom, rgba(0,0,0, 0.3) 40%, rgba(0,0,0, 0.175), rgba(255, 255, 255, 0));
+    z-index: 9999;
   }
 
   .logo {
