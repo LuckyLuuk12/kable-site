@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { browser } from '$app/environment';
   import '@kablan/clean-ui/css/index.css';
   
@@ -23,6 +23,13 @@
   let error = false;
   let scrollY = 0;
   let innerHeight = 0;
+  // Controls visibility of the download dropdown
+  let dropdownOpen = false;
+  // Respect user's reduced motion preference
+  let prefersReducedMotion = false;
+  let _reducedMotionMQ: MediaQueryList | null = null;
+  let _reducedMotionHandler: ((ev: any) => void) | null = null;
+  // (no debug-only variables)
 
   // Reactive platform detection
   $: userPlatform = browser ? detectPlatform() : '';
@@ -33,31 +40,15 @@
   // Elements for intersection observation
   let floatingElements: HTMLElement[] = [];
 
-  // Reactive logging when elements change
-  $: if (browser) {
-    console.log('FloatingElements updated:', floatingElements.length, 'elements bound');
-    floatingElements.forEach((el, i) => {
-      if (el) console.log(`Element ${i} bound:`, el.className);
-    });
-  }
+  // Reactive hook: elements may be bound after render
 
   // Check visibility of floating elements
   function checkElementVisibility() {
     if (!browser) {
-      console.log('Not in browser, skipping visibility check');
       return;
     }
-    
-    console.log('Checking visibility:', {
-      scrollY,
-      innerHeight,
-      elementsCount: floatingElements.length,
-      elements: floatingElements.filter(el => el !== undefined).length
-    });
-    
     floatingElements.forEach((element, index) => {
       if (!element) {
-        console.log(`Element ${index} is undefined`);
         return;
       }
       
@@ -65,53 +56,73 @@
       const elementVisible = rect.top < innerHeight * 0.8 && rect.bottom > innerHeight * 0.2;
       const isAlreadyVisible = element.classList.contains('visible');
       
-      console.log(`Element ${index}:`, {
-        top: rect.top,
-        bottom: rect.bottom,
-        height: rect.height,
-        innerHeight,
-        threshold80: innerHeight * 0.8,
-        threshold20: innerHeight * 0.2,
-        elementVisible,
-        isAlreadyVisible,
-        className: element.className
-      });
-      
       if (elementVisible && !isAlreadyVisible) {
-        console.log(`Making element ${index} visible!`);
         element.classList.add('visible');
-        element.style.opacity = '1';
-        element.style.transform = 'translateY(0)';
-        element.style.visibility = 'visible';
+        if (prefersReducedMotion) {
+          // Immediately show without animations; keep child image rotation intact
+          element.style.transition = 'none';
+          element.style.opacity = '1';
+          // set container to final position without animation
+          element.style.transform = 'translateY(0)';
+          element.style.visibility = 'visible';
+        } else {
+          element.style.opacity = '1';
+          element.style.transform = 'translateY(0)';
+          element.style.visibility = 'visible';
+        }
       } else if (!elementVisible && isAlreadyVisible) {
-        console.log(`Element ${index} is no longer visible, removing 'visible' class`);
         element.classList.remove('visible');
-        // Optionally reset styles if you want to hide it again
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(50px)';
-        element.style.visibility = 'hidden';
+        // Hide it (respect reduced motion by not animating)
+        if (prefersReducedMotion) {
+          element.style.transition = 'none';
+          element.style.opacity = '0';
+          // move container back to off-screen position without animation
+          element.style.transform = 'translateY(50px)';
+          element.style.visibility = 'hidden';
+        } else {
+          element.style.opacity = '0';
+          element.style.transform = 'translateY(50px)';
+          element.style.visibility = 'hidden';
+        }
       }
     });
   }
 
   // Reactive statement to check visibility when scroll changes
-  $: if (browser && scrollY !== undefined && innerHeight > 0) {
-    console.log('Scroll changed, checking visibility. ScrollY:', scrollY, 'innerHeight:', innerHeight);
-    checkElementVisibility();
-  }
+  $: if (browser && scrollY !== undefined && innerHeight > 0) checkElementVisibility();
 
   // Platform detection and labeling
   function detectPlatform(): string {
     if (typeof window === 'undefined') return '';
-    
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    if (userAgent.includes('windows')) return 'windows-x64';
-    if (userAgent.includes('mac')) {
-      // Check for Apple Silicon
-      if (userAgent.includes('intel')) return 'darwin-x64';
-      return 'darwin-arm64'; // Default to ARM for newer Macs
+
+    const ua = window.navigator.userAgent.toLowerCase();
+    const platform = (window.navigator.platform || '').toLowerCase();
+
+    // Prefer explicit mobile checks before generic "linux"
+    if (ua.includes('android')) {
+      // Most Android devices are ARM; fall back to x64 if x86 strings present
+      return ua.includes('arm') || ua.includes('aarch64') ? 'linux-arm64' : 'linux-x64';
     }
-    if (userAgent.includes('linux')) return 'linux-x64';
+
+    // iOS devices (iPhone/iPad/iPod)
+    if (/\b(iphone|ipad|ipod)\b/.test(ua)) {
+      // Modern iPhones/iPads use ARM
+      return 'darwin-arm64';
+    }
+
+    // macOS desktops (check platform and UA)
+    if (ua.includes('macintosh') || platform.includes('mac')) {
+      return ua.includes('intel') ? 'darwin-x64' : 'darwin-arm64';
+    }
+
+    // Windows
+    if (ua.includes('windows')) return 'windows-x64';
+
+    // Generic Linux desktop (detect ARM if mentioned)
+    if (ua.includes('linux')) {
+      return ua.includes('arm') || ua.includes('aarch64') ? 'linux-arm64' : 'linux-x64';
+    }
+
     return '';
   }
 
@@ -185,22 +196,101 @@
     }
   }
 
+  // Dropdown handlers
+  function toggleDropdown(e: MouseEvent | KeyboardEvent) {
+    e.stopPropagation();
+    dropdownOpen = !dropdownOpen;
+  }
+
+  function closeDropdown() {
+    dropdownOpen = false;
+  }
+
+  function handleWindowClick() {
+    // Close dropdown when clicking anywhere outside
+    if (dropdownOpen) dropdownOpen = false;
+  }
+
+  function handleKeydown(e: KeyboardEvent) {
+    if (e.key === 'Escape' && dropdownOpen) {
+      dropdownOpen = false;
+    }
+  }
+
   onMount(() => {
-    console.log('Component mounted');
+    // clear any stale reduced-motion attribute (HMR or previous runs)
+    if (browser) {
+      try { document.documentElement.removeAttribute('data-reduced-motion'); } catch (e) {}
+    }
     fetchLatestRelease();
     
     // Initial visibility check with delay to ensure elements are rendered
     if (browser) {
-      console.log('Setting up initial visibility check');
       setTimeout(() => {
-        console.log('Running initial visibility check');
         checkElementVisibility();
       }, 500); // Increased delay to ensure elements are bound
+    }
+
+    // Setup prefers-reduced-motion. Default to motion-enabled unless reduce is explicitly reported.
+    const mqSupported = !!(browser && typeof window.matchMedia === 'function');
+    if (mqSupported) {
+      _reducedMotionMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      // Handler updates state and sets/removes the data attribute only when reduce is true.
+      const reducedChangeHandler = (mq: MediaQueryList | MediaQueryListEvent) => {
+        // MediaQueryListEvent has 'matches', MediaQueryList also has 'matches'
+        // @ts-ignore
+        const matches = mq.matches === true;
+        prefersReducedMotion = matches;
+        try {
+          if (matches) {
+            document.documentElement.setAttribute('data-reduced-motion', 'true');
+          } else {
+            // Remove attribute so CSS won't match and motion remains enabled by default
+            document.documentElement.removeAttribute('data-reduced-motion');
+          }
+        } catch (e) {
+          // ignore
+        }
+      };
+
+  // Initialize and log for debugging
+  reducedChangeHandler(_reducedMotionMQ);
+
+      // Register listener and keep reference for removal
+      _reducedMotionHandler = reducedChangeHandler;
+      if (typeof _reducedMotionMQ.addEventListener === 'function') {
+        _reducedMotionMQ.addEventListener('change', _reducedMotionHandler as EventListener);
+      } else if (typeof _reducedMotionMQ.addListener === 'function') {
+        // @ts-ignore
+        _reducedMotionMQ.addListener(_reducedMotionHandler as any);
+      }
+    } else {
+      // No matchMedia support: ensure attribute is removed so motion remains enabled
+      try { document.documentElement.removeAttribute('data-reduced-motion'); } catch (e) {}
+      prefersReducedMotion = false;
+    }
+  });
+
+  onDestroy(() => {
+    if (_reducedMotionMQ) {
+      try {
+        if (_reducedMotionHandler) {
+          if (typeof _reducedMotionMQ.removeEventListener === 'function') {
+            _reducedMotionMQ.removeEventListener('change', _reducedMotionHandler as EventListener);
+          } else if (typeof _reducedMotionMQ.removeListener === 'function') {
+            // @ts-ignore
+            _reducedMotionMQ.removeListener(_reducedMotionHandler as any);
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
     }
   });
 </script>
 
-<svelte:window bind:scrollY bind:innerHeight />
+<svelte:window bind:scrollY bind:innerHeight on:click={handleWindowClick} on:keydown={handleKeydown} />
 
 <!-- Moving gradient background -->
 <div class="bg-gradient"></div>
@@ -214,12 +304,7 @@
   <a href="/" class="logo" aria-label="Home">
     <enhanced:img src={favicon} alt="Kable Launcher Logo"  />
   </a>
-  <!-- Top-left collapsible navigation -->
   <nav>
-    <!-- <div class="nav-brand">
-      <a href="/" class="gradient-primary-tertiary"><span>Kable</span></a>
-    </div> -->
-    
     <!-- Navigation links - hidden when collapsed -->
     <div>
       <a href="#about" class="nav-item">Who are "we"?</a>
@@ -263,15 +348,20 @@
                   Download for {recommendedKey ? labelFor(recommendedKey) : 'Your Platform'}
                 </span>
               </button>
-              <div class="dropdown-container">
-                <button class="dropdown-toggle" aria-label="Show download options for other platforms">
+              <div class="dropdown-container" on:click|stopPropagation on:keypress={(e) => { if (e.key === 'Enter' || e.key === ' ') toggleDropdown(e); }} tabindex="0" role="button" aria-haspopup="true" aria-expanded={dropdownOpen} aria-label="Show download options for other platforms">
+                <button
+                  class="dropdown-toggle"
+                  aria-label="Show download options for other platforms"
+                  on:click={toggleDropdown}
+                  class:active={dropdownOpen}
+                >
                   <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
                     <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </button>
-                <div class="dropdown-menu">
+                <div class="dropdown-menu" class:open={dropdownOpen} on:click|stopPropagation on:keydown|stopPropagation role="button" tabindex="0">
                   {#each Object.entries(release.platforms) as [key, info]}
-                    <a href={info.url} target="_blank" rel="noopener noreferrer" class="dropdown-item">
+                    <a href={info.url} target="_blank" rel="noopener noreferrer" class="dropdown-item" on:click={closeDropdown}>
                       <span class="platform-icon">{key.includes('windows') ? '🪟' : key.includes('darwin') ? '🍎' : '🐧'}</span>
                       <span>{labelFor(key)}</span>
                       {#if key === recommendedKey}
@@ -648,7 +738,7 @@
     
   }
 
-  .logo img {
+  :global(.logo img) {
     width: 100%;
     height: 100%;
     background: transparent !important
@@ -935,13 +1025,6 @@
       1px 1px 0 1px rgba(48, 8, 46, 0.8),
       -1px 0 28px 0 rgba(34, 33, 81, 0.01),
       54px 54px 28px -10px rgba(34, 33, 81, 0.15);
-  }
-
-  /* Floating elements animation */
-  .floating-element.visible, .visible {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-    visibility: visible !important;
   }
 
   /* Features section */
@@ -1276,6 +1359,58 @@
       text-align: left;
       max-width: 400px;
       margin: 0 auto;
+    }
+  }
+
+  /* Respect user's reduced motion preference (set via JS attribute for broader support) */
+  :root[data-reduced-motion='true'] .floating-element,
+  :root[data-reduced-motion='true'] .primary-download-btn,
+  :root[data-reduced-motion='true'] .primary-download-btn:hover,
+  :root[data-reduced-motion='true'] .primary-download-btn:focus,
+  :root[data-reduced-motion='true'] .dropdown-toggle svg,
+  :root[data-reduced-motion='true'] .dropdown-menu,
+  :root[data-reduced-motion='true'] .feature-card {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+
+  /* Disable hover/active transforms for download button and images */
+  :root[data-reduced-motion='true'] .primary-download-btn:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Keep base rotation but disable the hover movement/tilt when reduced-motion is on */
+  :root[data-reduced-motion='true'] .floating-element:hover :global(img) {
+    transform: rotateX(31deg) rotateZ(7deg) !important;
+    box-shadow: none !important;
+  }
+
+  /* Native prefers-reduced-motion media query (preferred) */
+  @media (prefers-reduced-motion: reduce) {
+    .floating-element,
+    .primary-download-btn,
+    .primary-download-btn:hover,
+    .primary-download-btn:focus,
+    .dropdown-toggle svg,
+    .dropdown-menu,
+    .feature-card,
+    .showcase-image {
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
+    }
+
+    .primary-download-btn:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .floating-element:hover :global(img) {
+      /* Preserve base rotation and prevent hover tilt/movement */
+      transform: rotateX(31deg) rotateZ(7deg) !important;
+      box-shadow: none !important;
     }
   }
 </style>
