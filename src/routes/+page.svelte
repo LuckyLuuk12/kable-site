@@ -339,6 +339,137 @@
   <div class="orb orb-3"></div>
 </div>
 
+<!-- Sticky Ad Sidebar (right side) -->
+<aside class="ad-sidebar">
+  <!-- Ad 1: Hero section -->
+  <div class="ad-unit">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
+         crossorigin="anonymous"></script>
+    <!-- KableVertical -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8329850616808451"
+         data-ad-slot="3777214661"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+  
+  <!-- Ad 2: Features section -->
+  <div class="ad-unit">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
+         crossorigin="anonymous"></script>
+    <!-- KableVertical -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8329850616808451"
+         data-ad-slot="3777214661"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+  
+  <!-- Ad 3: Showcase 1 (Home Interface) -->
+  <div class="ad-unit">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
+         crossorigin="anonymous"></script>
+    <!-- KableVertical -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8329850616808451"
+         data-ad-slot="3777214661"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+  
+  <!-- Ad 4: Showcase 2 (Mod Management) -->
+  <div class="ad-unit">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
+         crossorigin="anonymous"></script>
+    <!-- KableVertical -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8329850616808451"
+         data-ad-slot="3777214661"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+  
+  <!-- Ad 5: Showcase 3 (Mod Discovery) -->
+  <div class="ad-unit">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
+         crossorigin="anonymous"></script>
+    <!-- KableVertical -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8329850616808451"
+         data-ad-slot="3777214661"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+  
+  <!-- Ad 6: Showcase 4 (Settings) -->
+  <div class="ad-unit">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
+         crossorigin="anonymous"></script>
+    <!-- KableVertical -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8329850616808451"
+         data-ad-slot="3777214661"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+  
+  <!-- Ad 7: Showcase 5 (Logs) -->
+  <div class="ad-unit">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
+         crossorigin="anonymous"></script>
+    <!-- KableVertical -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8329850616808451"
+         data-ad-slot="3777214661"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+  
+  <!-- Ad 8: About section -->
+  <div class="ad-unit">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
+         crossorigin="anonymous"></script>
+    <!-- KableVertical -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8329850616808451"
+         data-ad-slot="3777214661"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+</aside>
+
 <div class="page-root">
   <a href="/" class="logo" aria-label="Home">
     <enhanced:img src={favicon} alt="Kable Launcher Logo"  />
@@ -612,6 +743,34 @@
     background: transparent;
   }
 
+  /* Ad Sidebar - Scrolling right column */
+  .ad-sidebar {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    min-width: 200px;
+    max-width: 300px;
+    padding-top: 120px; /* Start below nav */
+    padding-bottom: 2rem;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem; /* Spacing between ad units */
+    /* No background - adblocker users see normal site */
+  }
+
+  .ad-unit {
+    min-height: 250px;
+    /* No styling - let ads render naturally */
+  }
+
+  /* Hide sidebar on tablets and mobile */
+  @media (max-width: 1280px) {
+    .ad-sidebar {
+      display: none;
+    }
+  }
+
   /* Animated background */
   .bg-gradient {
     position: fixed;
@@ -805,7 +964,7 @@
     display: flex;
     align-items: center;
     padding: 2rem;
-    max-width: 1400px;
+    max-width: 1350px;
     margin: 0 auto;
   }
 
