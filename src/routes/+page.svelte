@@ -263,6 +263,22 @@
     }
     fetchLatestRelease();
     
+    // Initialize AdSense ads after a short delay
+    if (browser && typeof window !== 'undefined') {
+      setTimeout(() => {
+        try {
+          // Push ads to AdSense queue
+          const adsbygoogle = (window as any).adsbygoogle || [];
+          const adElements = document.querySelectorAll('.adsbygoogle');
+          adElements.forEach(() => {
+            adsbygoogle.push({});
+          });
+        } catch (e) {
+          console.error('AdSense initialization error:', e);
+        }
+      }, 1000);
+    }
+    
     // Initial visibility check with delay to ensure elements are rendered
     if (browser) {
       setTimeout(() => {
@@ -343,8 +359,6 @@
 <aside class="ad-sidebar">
   <!-- Ad 1: Hero section -->
   <div class="ad-unit">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
-         crossorigin="anonymous"></script>
     <!-- KableVertical -->
     <ins class="adsbygoogle"
          style="display:block"
@@ -352,15 +366,10 @@
          data-ad-slot="3777214661"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
   </div>
   
   <!-- Ad 2: Features section -->
   <div class="ad-unit">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
-         crossorigin="anonymous"></script>
     <!-- KableVertical -->
     <ins class="adsbygoogle"
          style="display:block"
@@ -368,15 +377,10 @@
          data-ad-slot="3777214661"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
   </div>
   
   <!-- Ad 3: Showcase 1 (Home Interface) -->
   <div class="ad-unit">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
-         crossorigin="anonymous"></script>
     <!-- KableVertical -->
     <ins class="adsbygoogle"
          style="display:block"
@@ -384,15 +388,10 @@
          data-ad-slot="3777214661"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
   </div>
   
   <!-- Ad 4: Showcase 2 (Mod Management) -->
   <div class="ad-unit">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
-         crossorigin="anonymous"></script>
     <!-- KableVertical -->
     <ins class="adsbygoogle"
          style="display:block"
@@ -400,15 +399,10 @@
          data-ad-slot="3777214661"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
   </div>
   
   <!-- Ad 5: Showcase 3 (Mod Discovery) -->
   <div class="ad-unit">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
-         crossorigin="anonymous"></script>
     <!-- KableVertical -->
     <ins class="adsbygoogle"
          style="display:block"
@@ -416,15 +410,10 @@
          data-ad-slot="3777214661"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
   </div>
   
   <!-- Ad 6: Showcase 4 (Settings) -->
   <div class="ad-unit">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
-         crossorigin="anonymous"></script>
     <!-- KableVertical -->
     <ins class="adsbygoogle"
          style="display:block"
@@ -432,15 +421,10 @@
          data-ad-slot="3777214661"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
   </div>
   
   <!-- Ad 7: Showcase 5 (Logs) -->
   <div class="ad-unit">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
-         crossorigin="anonymous"></script>
     <!-- KableVertical -->
     <ins class="adsbygoogle"
          style="display:block"
@@ -448,15 +432,10 @@
          data-ad-slot="3777214661"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
   </div>
   
   <!-- Ad 8: About section -->
   <div class="ad-unit">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8329850616808451"
-         crossorigin="anonymous"></script>
     <!-- KableVertical -->
     <ins class="adsbygoogle"
          style="display:block"
@@ -464,9 +443,6 @@
          data-ad-slot="3777214661"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
   </div>
 </aside>
 
