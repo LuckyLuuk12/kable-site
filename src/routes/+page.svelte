@@ -421,114 +421,114 @@
   <div class="orb orb-3"></div>
 </div>
 
-<!-- Sticky Ad Sidebar (right side) -->
-<aside class="ad-sidebar">
-  <!-- Ad 1: Hero section -->
-  <div class="ad-unit">
-    <!-- KableVertical -->
-    <ins
-      class="adsbygoogle"
-      style="display:block"
-      data-ad-client="ca-pub-8329850616808451"
-      data-ad-slot="3777214661"
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    ></ins>
-  </div>
-
-  <!-- Ad 2: Features section -->
-  <div class="ad-unit">
-    <!-- KableVertical -->
-    <ins
-      class="adsbygoogle"
-      style="display:block"
-      data-ad-client="ca-pub-8329850616808451"
-      data-ad-slot="3777214661"
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    ></ins>
-  </div>
-
-  <!-- Ad 3: Showcase 1 (Home Interface) -->
-  <div class="ad-unit">
-    <!-- KableVertical -->
-    <ins
-      class="adsbygoogle"
-      style="display:block"
-      data-ad-client="ca-pub-8329850616808451"
-      data-ad-slot="3777214661"
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    ></ins>
-  </div>
-
-  <!-- Ad 4: Showcase 2 (Mod Management) -->
-  <div class="ad-unit">
-    <!-- KableVertical -->
-    <ins
-      class="adsbygoogle"
-      style="display:block"
-      data-ad-client="ca-pub-8329850616808451"
-      data-ad-slot="3777214661"
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    ></ins>
-  </div>
-
-  <!-- Ad 5: Showcase 3 (Mod Discovery) -->
-  <div class="ad-unit">
-    <!-- KableVertical -->
-    <ins
-      class="adsbygoogle"
-      style="display:block"
-      data-ad-client="ca-pub-8329850616808451"
-      data-ad-slot="3777214661"
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    ></ins>
-  </div>
-
-  <!-- Ad 6: Showcase 4 (Settings) -->
-  <div class="ad-unit">
-    <!-- KableVertical -->
-    <ins
-      class="adsbygoogle"
-      style="display:block"
-      data-ad-client="ca-pub-8329850616808451"
-      data-ad-slot="3777214661"
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    ></ins>
-  </div>
-
-  <!-- Ad 7: Showcase 5 (Logs) -->
-  <div class="ad-unit">
-    <!-- KableVertical -->
-    <ins
-      class="adsbygoogle"
-      style="display:block"
-      data-ad-client="ca-pub-8329850616808451"
-      data-ad-slot="3777214661"
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    ></ins>
-  </div>
-
-  <!-- Ad 8: About section -->
-  <div class="ad-unit">
-    <!-- KableVertical -->
-    <ins
-      class="adsbygoogle"
-      style="display:block"
-      data-ad-client="ca-pub-8329850616808451"
-      data-ad-slot="3777214661"
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    ></ins>
-  </div>
-</aside>
-
 <div class="page-root">
+  <!-- Ad Sidebar (right side) - inside page-root for proper height calculation -->
+  <aside class="ad-sidebar">
+    <!-- Ad 1: Hero section -->
+    <div class="ad-unit">
+      <!-- KableVertical -->
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-8329850616808451"
+        data-ad-slot="3777214661"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+    </div>
+
+    <!-- Ad 2: Features section -->
+    <div class="ad-unit">
+      <!-- KableVertical -->
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-8329850616808451"
+        data-ad-slot="3777214661"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+    </div>
+
+    <!-- Ad 3: Showcase 1 (Home Interface) -->
+    <div class="ad-unit">
+      <!-- KableVertical -->
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-8329850616808451"
+        data-ad-slot="3777214661"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+    </div>
+
+    <!-- Ad 4: Showcase 2 (Mod Management) -->
+    <div class="ad-unit">
+      <!-- KableVertical -->
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-8329850616808451"
+        data-ad-slot="3777214661"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+    </div>
+
+    <!-- Ad 5: Showcase 3 (Mod Discovery) -->
+    <div class="ad-unit">
+      <!-- KableVertical -->
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-8329850616808451"
+        data-ad-slot="3777214661"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+    </div>
+
+    <!-- Ad 6: Showcase 4 (Settings) -->
+    <div class="ad-unit">
+      <!-- KableVertical -->
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-8329850616808451"
+        data-ad-slot="3777214661"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+    </div>
+
+    <!-- Ad 7: Showcase 5 (Logs) -->
+    <div class="ad-unit">
+      <!-- KableVertical -->
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-8329850616808451"
+        data-ad-slot="3777214661"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+    </div>
+
+    <!-- Ad 8: About section -->
+    <div class="ad-unit">
+      <!-- KableVertical -->
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-8329850616808451"
+        data-ad-slot="3777214661"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+    </div>
+  </aside>
+
   <a href="/" class="logo" aria-label="Home">
     <enhanced:img src={favicon} alt="Kable Launcher Logo" />
   </a>
@@ -971,17 +971,21 @@
     right: 5px;
     min-width: 200px;
     max-width: 300px;
+    height: 100%; /* Match full page height */
     padding-top: 120px; /* Start below nav */
-    padding-bottom: 2rem;
+    padding-bottom: 5rem;
     z-index: 100;
     display: flex;
     flex-direction: column;
-    gap: 3rem; /* Spacing between ad units */
+    justify-content: space-evenly; /* Evenly distribute ads */
     /* No background - adblocker users see normal site */
   }
 
   .ad-unit {
+    flex: 1; /* Each ad takes equal space */
     min-height: 250px;
+    display: flex;
+    align-items: center; /* Center ad content vertically within its space */
     /* No styling - let ads render naturally */
   }
 
