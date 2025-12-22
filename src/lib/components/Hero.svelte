@@ -80,8 +80,10 @@
   const heroOpacity = $derived(Math.max(0, 1 - scrollY / 600));
   // Cap scaling at 1.1 (stops at scrollY = 500)
   const scale = $derived(Math.min(1.1, 1 + scrollY * 0.0003));
+  // Stop preview movement at scrollY 300 to keep it overlapped with tabs
+  const cappedScrollY = $derived(Math.min(scrollY, 300));
   const previewTransform = $derived(
-    `translateY(${scrollY * -0.15}px) scale(${scale})`,
+    `translateY(${cappedScrollY * -0.15}px) scale(${scale})`,
   );
 </script>
 
@@ -149,32 +151,36 @@
         {/if}
       {/each}
     </div>
+  </div>
+</div>
 
-    <div class="preview-tabs">
-      {#each tabs as tab}
-        <button
-          class="tab"
-          class:active={activeTab === tab.id}
-          onclick={() => (activeTab = tab.id)}
-        >
-          {tab.label}
-        </button>
-      {/each}
-    </div>
-
+<!-- Full-width tabs container outside hero -->
+<section class="tabs-wrapper">
+  <div class="preview-tabs">
+    {#each tabs as tab}
+      <button
+        class="tab"
+        class:active={activeTab === tab.id}
+        onclick={() => (activeTab = tab.id)}
+      >
+        {tab.label}
+      </button>
+    {/each}
+  </div>
+  <div class="preview-description-wrapper">
     <p class="preview-description">
       {tabs.find((t) => t.id === activeTab)?.description}
     </p>
   </div>
-</div>
+</section>
 
 <style>
   .hero {
-    min-height: 120vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 8rem 0 6rem;
+    padding: 8rem 0 0;
     position: relative;
     overflow: hidden;
     width: 100%;
@@ -191,7 +197,7 @@
     position: absolute;
     border-radius: 50%;
     filter: blur(80px);
-    opacity: 0.4;
+    opacity: 0.7;
     will-change: transform;
     transition: transform 0.1s linear;
   }
@@ -275,6 +281,7 @@
     margin: 0 0 1.5rem 0;
     color: var(--text);
     letter-spacing: -0.03em;
+    width: 100%;
   }
 
   .emphasis {
@@ -390,31 +397,31 @@
     position: relative;
     z-index: 2;
     will-change: transform;
-    padding: 0 2rem;
-    margin-bottom: 3rem;
+    padding: 0 2rem 4rem;
+  }
+
+  .tabs-wrapper {
+    width: 100vw;
+    position: relative;
+    margin-top: -8rem;
+    z-index: 3;
+    border-top: 1px solid rgba(113, 113, 122, 0.2);
+    border-bottom: 1px solid rgba(113, 113, 122, 0.2);
   }
 
   .preview-tabs {
     display: flex;
     justify-content: center;
     gap: var(--small);
-    margin-top: -3rem;
-    padding: 1.5rem;
-    background: linear-gradient(
-      to bottom,
-      rgba(24, 24, 27, 0.6) 0%,
-      rgba(24, 24, 27, 0.85) 50%,
-      rgba(24, 24, 27, 0.95) 100%
-    );
-    border-radius: var(--border-radius-normal);
+    padding: 1.5rem 2rem;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     flex-wrap: wrap;
     position: relative;
-    z-index: 3;
-    box-shadow:
-      0 -4px 16px -8px rgba(139, 92, 246, 0.2),
-      0 4px 16px -4px rgba(0, 0, 0, 0.3);
+  }
+
+  .preview-description-wrapper {
+    padding: 1.5rem 2rem;
   }
 
   .tab {
@@ -440,23 +447,6 @@
     background: rgba(39, 39, 42, 0.9);
     border-color: rgba(139, 92, 246, 0.4);
     box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.2);
-  }
-
-  .tab.active::after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      var(--primary-500),
-      var(--secondary-500)
-    );
-    border-radius: 2px;
-    box-shadow: 0 0 6px rgba(139, 92, 246, 0.6);
   }
 
   .preview-container {
@@ -515,14 +505,11 @@
 
   .preview-description {
     text-align: center;
-    margin-top: 2rem;
     font-size: var(--font-size-normal);
     color: var(--placeholder);
     line-height: 1.6;
     max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 0 auto;
   }
 
   @media (max-width: 768px) {
