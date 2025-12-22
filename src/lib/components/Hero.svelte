@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Release } from "$lib";
-  import { onMount } from "svelte";
   import { browser } from "$app/environment";
+  import { detectPlatform, labelFor } from "$lib";
 
   import homeImage from "$lib/assets/home.png?enhanced";
   import manageModsImage from "$lib/assets/manage-mods.png?enhanced";
@@ -64,6 +64,13 @@
 
   let activeTab = $state("launch");
   let scrollY = $state(0);
+  let downloadUrl = $state<string | null>(null);
+  const detectedPlatformKey = detectPlatform();
+  const platformLabel = labelFor(detectedPlatformKey);
+
+  $effect(() => {
+    downloadUrl = release?.platforms?.[detectedPlatformKey]?.url ?? null;
+  });
 
   $effect(() => {
     if (browser) {
@@ -121,19 +128,26 @@
     </p>
 
     <div class="hero-actions">
-      <a href="/wiki" class="btn-primary">
-        <span>Get Started</span>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path
-            d="M8.5 3L13.5 8L8.5 13M13 8H3"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </a>
-      <a href="/about" class="btn-secondary"> Learn More </a>
+      {#if downloadUrl}
+        <a href={downloadUrl} class="btn-primary" rel="noopener noreferrer">
+          <i class="fa-solid fa-download" aria-hidden="true"></i>
+          <span>Download for {platformLabel}</span>
+        </a>
+      {:else}
+        <a href="/wiki" class="btn-primary">
+          <span>Get Started</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M8.5 3L13.5 8L8.5 13M13 8H3"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+      {/if}
+      <a href="/wiki" class="btn-secondary"> Learn More </a>
     </div>
   </div>
 
@@ -393,6 +407,7 @@
 
   .preview-section {
     max-width: 1200px;
+    max-height: 600px;
     width: 100%;
     position: relative;
     z-index: 2;
@@ -451,7 +466,7 @@
 
   .preview-container {
     background: var(--card);
-    border: 1px solid var(--border);
+    border: 1px solid var(--secondary-900);
     border-radius: var(--border-radius-large);
     padding: 1rem;
     backdrop-filter: blur(20px);
@@ -474,7 +489,7 @@
       rgba(236, 72, 153, 0.15)
     );
     border-radius: var(--border-radius-large);
-    opacity: 0.5;
+    opacity: 0.45;
     z-index: -1;
     pointer-events: none;
   }

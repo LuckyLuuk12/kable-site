@@ -2,6 +2,7 @@
   import type { Picture } from "vite-imagetools";
   import { onMount } from "svelte";
   import { browser } from "$app/environment";
+  import { getImageUrl } from "$lib";
 
   let {
     items,
@@ -61,14 +62,21 @@
         </button>
       {/each}
     </div>
-    <div class="feature-image-container">
-      {#if expandedIndex >= 0 && items[expandedIndex]}
-        <enhanced:img
-          src={items[expandedIndex].image.src}
-          alt={items[expandedIndex].image.alt}
-          class="feature-image"
-        />
-      {/if}
+    <div
+      class="feature-image-container"
+      class:has-selection={expandedIndex >= 0}
+    >
+      <img
+        src={getImageUrl(
+          expandedIndex >= 0
+            ? items[expandedIndex].image.src
+            : items[0].image.src,
+        )}
+        alt={expandedIndex >= 0 ? items[expandedIndex].image.alt : ""}
+        class="feature-image"
+        class:visible={expandedIndex >= 0}
+        loading="eager"
+      />
     </div>
   </div>
 </section>
@@ -108,6 +116,7 @@
   .feature-image-container {
     position: sticky;
     top: 2rem;
+    min-height: 240px; /* reserve space so layout doesn't shift when images toggle */
     opacity: 0;
     transform: translateY(-40px);
     transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
@@ -123,7 +132,7 @@
     background: transparent;
     border: none;
     border-top: 1px solid rgba(113, 113, 122, 0.2);
-    padding: var(--large) 0;
+    padding: var(--large);
     text-align: left;
     cursor: pointer;
     border-radius: 0 !important;
@@ -197,19 +206,7 @@
     line-height: 1.6;
     margin: 0;
   }
-
-  .feature-image-container {
-    position: sticky;
-    top: 2rem;
-    opacity: 0;
-    transform: translateY(-40px);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
-  }
-
-  .feature-list-layout.visible .feature-image-container {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* (duplicate .feature-image-container block removed to avoid overrides) */
 
   .feature-image {
     width: 100%;
@@ -220,6 +217,20 @@
       0 0 0 1px rgba(139, 92, 246, 0.15),
       0 20px 60px -15px rgba(0, 0, 0, 0.4),
       0 10px 30px -10px rgba(139, 92, 246, 0.15);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition:
+      opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0s linear 0.6s;
+  }
+
+  .feature-image.visible {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0s;
   }
 
   @media (max-width: 1024px) {
