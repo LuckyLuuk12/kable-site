@@ -1,4 +1,4 @@
-<section class="cta-section">
+<div class="cta-section">
   <div class="cta-card">
     <h2>Ready to Get Started?</h2>
     <p>
@@ -6,7 +6,7 @@
     </p>
     <a href="/releases" class="cta-button">Download Now</a>
   </div>
-</section>
+</div>
 
 <style>
   .cta-section {

@@ -36,10 +36,6 @@
 
   <FeaturesGrid />
 
-  <!-- <FeatureCentered
-    image={{ src: homeImage, alt: "Kable Launcher Interface" }}
-  /> -->
-
   <FeatureSplit
     title="Clean & Intuitive Interface"
     description="Launch Minecraft with ease using our streamlined home interface. Everything you need is just a click away."
