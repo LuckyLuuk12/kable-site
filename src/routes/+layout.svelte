@@ -27,8 +27,14 @@
 	:global(*) {
 		scrollbar-width: thin;
 		font-family: "Minecraft", "Inter", sans-serif;
+		--card: var(--dark-800);
 	}
 	:global(main) {
 		padding: 0 !important;
+		gap: 0 !important;
+	}
+	:global(section) {
+		border-radius: 0 !important;
+		background: var(--dark-900) !important;
 	}
 </style>
