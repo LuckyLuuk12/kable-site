@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { Picture } from "vite-imagetools";
+  import { onMount } from "svelte";
+  import { browser } from "$app/environment";
 
   let {
     title,
@@ -16,11 +18,27 @@
     imageGrid?: Array<{ src: Picture; alt: string }>;
     reverse?: boolean;
   } = $props();
+
+  let sectionRef: HTMLElement;
+  let isVisible = $state(false);
+
+  onMount(() => {
+    if (browser && sectionRef) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          isVisible = entries[0].isIntersecting;
+        },
+        { threshold: 0.2, rootMargin: "0px 0px -100px 0px" },
+      );
+      observer.observe(sectionRef);
+      return () => observer.disconnect();
+    }
+  });
 </script>
 
-<section class="full-feature">
-  <div class="feature-split" class:reverse>
-    <div class="feature-text">
+<section class="full-feature" bind:this={sectionRef}>
+  <div class="feature-split" class:reverse class:visible={isVisible}>
+    <div class="feature-text" class:reverse>
       <h2>{title}</h2>
       <p>{description}</p>
       {#if listItems.length > 0}
@@ -36,14 +54,15 @@
       <div class="feature-image-grid">
         {#each imageGrid as img, i}
           <enhanced:img
-            {...img}
+            src={img.src}
+            alt={img.alt}
             class={i === 0 ? "grid-image-main" : "grid-image-secondary"}
           />
         {/each}
       </div>
     {:else if image}
       <div class="feature-image-container">
-        <enhanced:img {...image} class="feature-image" />
+        <enhanced:img src={image.src} alt={image.alt} class="feature-image" />
       </div>
     {/if}
   </div>
@@ -69,6 +88,34 @@
 
   .feature-split.reverse {
     grid-template-columns: 1.2fr 1fr;
+  }
+
+  .feature-text {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .feature-text.reverse {
+    transform: translateX(40px);
+  }
+
+  .feature-split.visible .feature-text {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .feature-image-container,
+  .feature-image-grid {
+    opacity: 0;
+    transform: translateY(-40px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+  }
+
+  .feature-split.visible .feature-image-container,
+  .feature-split.visible .feature-image-grid {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .feature-text h2 {

@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+  import { browser } from "$app/environment";
+
   const features = [
     {
       icon: "🌐",
@@ -37,13 +40,29 @@
         "Stay current with automatic updates and the latest Minecraft versions.",
     },
   ];
+
+  let sectionRef: HTMLElement;
+  let isVisible = $state(false);
+
+  onMount(() => {
+    if (browser && sectionRef) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          isVisible = entries[0].isIntersecting;
+        },
+        { threshold: 0.2, rootMargin: "0px 0px -100px 0px" },
+      );
+      observer.observe(sectionRef);
+      return () => observer.disconnect();
+    }
+  });
 </script>
 
-<section>
-  <div class="feature-cards-section">
+<section bind:this={sectionRef}>
+  <div class="feature-cards-section" class:visible={isVisible}>
     <div class="feature-cards-container">
-      {#each features as feature}
-        <div class="feature-card">
+      {#each features as feature, i}
+        <div class="feature-card" style="--card-index: {i};">
           <div class="feature-icon">{feature.icon}</div>
           <h3>{feature.title}</h3>
           <p>{feature.description}</p>
@@ -75,7 +94,21 @@
     -webkit-backdrop-filter: blur(16px);
     position: relative;
     overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: scale(0) rotateY(90deg);
+    transition:
+      opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: calc(var(--card-index, 0) * 0.1s);
+    transform-origin: center center;
+    perspective: 1000px;
+  }
+
+  .feature-cards-section.visible .feature-card {
+    opacity: 1;
+    transform: scale(1) rotateY(0deg);
   }
 
   .feature-card::before {

@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { Picture } from "vite-imagetools";
+  import { onMount } from "svelte";
+  import { browser } from "$app/environment";
 
   let {
     items,
@@ -12,21 +14,37 @@
     }>;
   } = $props();
 
-  let expandedIndex = $state(0);
+  let expandedIndex = $state(-1);
+  let sectionRef: HTMLElement;
+  let isVisible = $state(false);
 
   function toggleItem(index: number) {
     expandedIndex = expandedIndex === index ? -1 : index;
   }
+
+  onMount(() => {
+    if (browser && sectionRef) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          isVisible = entries[0].isIntersecting;
+        },
+        { threshold: 0.2, rootMargin: "0px 0px -100px 0px" },
+      );
+      observer.observe(sectionRef);
+      return () => observer.disconnect();
+    }
+  });
 </script>
 
-<section class="full-feature">
-  <div class="feature-list-layout">
+<section class="full-feature" bind:this={sectionRef}>
+  <div class="feature-list-layout" class:visible={isVisible}>
     <div class="feature-list-items">
       {#each items as item, i}
         <button
           class="feature-item"
           class:expanded={expandedIndex === i}
           onclick={() => toggleItem(i)}
+          style="--item-index: {i};"
         >
           <div class="feature-item-header">
             <h3>{item.title}</h3>
@@ -45,7 +63,11 @@
     </div>
     <div class="feature-image-container">
       {#if expandedIndex >= 0 && items[expandedIndex]}
-        <enhanced:img {...items[expandedIndex].image} class="feature-image" />
+        <enhanced:img
+          src={items[expandedIndex].image.src}
+          alt={items[expandedIndex].image.alt}
+          class="feature-image"
+        />
       {/if}
     </div>
   </div>
@@ -73,6 +95,27 @@
     display: flex;
     flex-direction: column;
     gap: 0;
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .feature-list-layout.visible .feature-list-items {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .feature-image-container {
+    position: sticky;
+    top: 2rem;
+    opacity: 0;
+    transform: translateY(-40px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+  }
+
+  .feature-list-layout.visible .feature-image-container {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .feature-item {
@@ -83,8 +126,20 @@
     padding: var(--large) 0;
     text-align: left;
     cursor: pointer;
-    transition: background 0.2s ease;
     border-radius: 0 !important;
+    opacity: 0;
+    transform: translateX(-40px);
+    transition:
+      opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+      background 0.2s ease,
+      padding 0.2s ease;
+    transition-delay: calc(var(--item-index, 0) * 0.15s);
+  }
+
+  .feature-list-layout.visible .feature-item {
+    opacity: 1;
+    transform: translateX(0);
   }
 
   .feature-item:last-child {
@@ -146,6 +201,14 @@
   .feature-image-container {
     position: sticky;
     top: 2rem;
+    opacity: 0;
+    transform: translateY(-40px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+  }
+
+  .feature-list-layout.visible .feature-image-container {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .feature-image {
