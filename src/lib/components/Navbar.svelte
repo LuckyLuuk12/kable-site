@@ -10,10 +10,27 @@
   $effect(() => {
     if (browser) {
       const handleScroll = () => {
-        scrolled = window.scrollY > 50;
+        if ($page.url.pathname.startsWith("/wiki")) {
+          scrolled = true;
+        } else {
+          scrolled = window.scrollY > 50;
+        }
       };
+
+      // Run immediately to set initial state
+      handleScroll();
+
       window.addEventListener("scroll", handleScroll);
       return () => window.removeEventListener("scroll", handleScroll);
+    }
+  });
+
+  // React to page changes
+  $effect(() => {
+    if ($page.url.pathname.startsWith("/wiki")) {
+      scrolled = true;
+    } else if (browser) {
+      scrolled = window.scrollY > 50;
     }
   });
 </script>

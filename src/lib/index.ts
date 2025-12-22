@@ -174,10 +174,18 @@ export async function fetchLatestRelease(): Promise<Release | null> {
 /**
  * Gets the platform icon emoji
  */
-export function getPlatformIcon(platformKey: string): string {
-  if (platformKey.includes('windows')) return '🪟';
-  if (platformKey.includes('darwin')) return '🍎';
-  return '🐧';
+
+/**
+ * Normalize an image reference coming from vite-imagetools or plain strings
+ * and return a usable URL string for <img src="..."> or other consumers.
+ */
+export function getImageUrl(p: any): string {
+  if (!p) return "";
+  if (typeof p === "string") return p;
+  if (p.img && typeof p.img.src === "string") return p.img.src;
+  if (p.src && typeof p.src === "string") return p.src;
+  if (p.src && p.src.img && typeof p.src.img.src === "string") return p.src.img.src;
+  return "";
 }
 
 

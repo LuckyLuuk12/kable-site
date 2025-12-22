@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Navbar from "$lib/components/Navbar.svelte";
 	import Footer from "$lib/components/Footer.svelte";
+	import { page } from "$app/stores";
 
 	let { children } = $props();
 </script>
@@ -17,7 +18,9 @@
 <main>
 	{@render children?.()}
 </main>
-<Footer />
+{#if !$page.url.pathname.startsWith("/wiki")}
+	<Footer />
+{/if}
 
 <style>
 	@font-face {

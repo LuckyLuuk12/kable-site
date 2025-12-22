@@ -1,12 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import PageLayout from "$lib/components/PageLayout.svelte";
-  import {
-    fetchLatestRelease,
-    labelFor,
-    getPlatformIcon,
-    type Release,
-  } from "$lib";
+  import { fetchLatestRelease, labelFor, type Release } from "$lib";
   import "@kablan/clean-ui/css/index.css";
 
   let release: Release | null = $state(null);
@@ -65,7 +60,6 @@
                 rel="noopener"
                 class="platform-card"
               >
-                <div class="platform-icon">{getPlatformIcon(key)}</div>
                 <div class="platform-info">
                   <h4>{labelFor(key)}</h4>
                   <p class="file-name">{info.filename}</p>
@@ -254,11 +248,6 @@
     border-color: var(--primary-500);
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
-  }
-
-  .platform-icon {
-    font-size: 2.5rem;
-    flex-shrink: 0;
   }
 
   .platform-info {
