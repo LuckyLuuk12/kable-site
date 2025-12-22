@@ -1,4 +1,7 @@
 <script lang="ts">
+	import Navbar from "$lib/components/Navbar.svelte";
+	import Footer from "$lib/components/Footer.svelte";
+
 	let { children } = $props();
 </script>
 
@@ -10,4 +13,22 @@
 	></script>
 </svelte:head>
 
-{@render children?.()}
+<Navbar />
+<main>
+	{@render children?.()}
+</main>
+<Footer />
+
+<style>
+	@font-face {
+		font-family: Minecraft; /* set name */
+		src: url(Minecraft-Regular.woff2); /* url of the font */
+	}
+	:global(*) {
+		scrollbar-width: thin;
+		font-family: "Minecraft", "Inter", sans-serif;
+	}
+	:global(main) {
+		padding: 0 !important;
+	}
+</style>
