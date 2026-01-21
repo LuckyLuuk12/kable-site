@@ -1,4 +1,5 @@
 <script lang="ts">
+	import "@kablan/clean-ui/css/index.css";
 	import Navbar from "$lib/components/Navbar.svelte";
 	import Footer from "$lib/components/Footer.svelte";
 	import { page } from "$app/stores";
@@ -27,7 +28,10 @@
 <style>
 	@font-face {
 		font-family: Minecraft; /* set name */
-		src: url(Minecraft-Regular.woff2); /* url of the font */
+		src: url(/Minecraft-Regular.woff2) format("woff2"); /* absolute path to font */
+		font-display: swap; /* Prevent invisible text while loading */
+		font-weight: 400;
+		font-style: normal;
 	}
 	:global(*) {
 		scrollbar-width: thin;

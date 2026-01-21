@@ -3,7 +3,6 @@
   import PageLayout from "$lib/components/PageLayout.svelte";
   import { fetchReleases, labelFor, type Release } from "$lib";
   import { marked } from "marked";
-  import "@kablan/clean-ui/css/index.css";
 
   let releases: Release[] = $state([]);
   let selectedRelease: Release | null = $state(null);

@@ -1,6 +1,5 @@
 <script lang="ts">
   import PageLayout from "$lib/components/PageLayout.svelte";
-  import "@kablan/clean-ui/css/index.css";
   import { onMount } from "svelte";
 
   let contentRef: HTMLDivElement | null = null;

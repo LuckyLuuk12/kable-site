@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { onMount, onDestroy } from "svelte";
   import {
     wikiContent,
     findNodeByPath,
@@ -23,10 +24,147 @@
     try {
       await navigator.clipboard.writeText(url.toString());
     } catch (e) {
-      location.hash = id;
+      // Silently fail if clipboard access denied
     }
-    location.hash = id;
   }
+
+  // Flatten wiki structure into linear sequence for prev/next navigation
+  type FlatNode = { path: string[]; title: string; id: string };
+
+  function flattenWiki(
+    nodes: WikiNode[],
+    parentPath: string[] = [],
+  ): FlatNode[] {
+    const result: FlatNode[] = [];
+    for (const node of nodes) {
+      const currentPath = [...parentPath, node.id];
+      result.push({ path: currentPath, title: node.title, id: node.id });
+      if (node.children) {
+        result.push(...flattenWiki(node.children, currentPath));
+      }
+    }
+    return result;
+  }
+
+  let flatWiki: FlatNode[] = [];
+  let currentIndex: number = -1;
+  let prevNode: FlatNode | null = null;
+  let nextNode: FlatNode | null = null;
+  let visibleSectionId: string | null = null;
+  let lastPathStr: string = "";
+
+  $: {
+    flatWiki = flattenWiki(wikiContent);
+    const currentPathStr = slugArr.join("/");
+    
+    // Reset visibleSectionId when navigating to a new page
+    if (currentPathStr !== lastPathStr) {
+      visibleSectionId = null;
+      lastPathStr = currentPathStr;
+    }
+    
+    // If we have a visible section from scroll detection, use that
+    if (visibleSectionId) {
+      currentIndex = flatWiki.findIndex(n => n.id === visibleSectionId);
+    } else {
+      // Otherwise use the URL path
+      currentIndex = flatWiki.findIndex(
+        (n) => n.path.join("/") === currentPathStr,
+      );
+    }
+    
+    prevNode = currentIndex > 0 ? flatWiki[currentIndex - 1] : null;
+    nextNode =
+      currentIndex >= 0 && currentIndex < flatWiki.length - 1
+        ? flatWiki[currentIndex + 1]
+        : null;
+  }
+
+  function getWikiUrl(path: string[]): string {
+    return `/wiki/${path.join("/")}`;
+  }
+
+  // Scroll detection with Intersection Observer
+  let observer: IntersectionObserver | null = null;
+  let isInitialLoad = true;
+
+  onMount(() => {
+    // Delay initial observation to avoid triggering on page load
+    setTimeout(() => {
+      isInitialLoad = false;
+    }, 500);
+
+    // Create observer to detect which section is most visible
+    observer = new IntersectionObserver(
+      (entries) => {
+        // Skip updates during initial load to prevent auto-scroll
+        if (isInitialLoad) return;
+
+        // Find the entry with the highest intersection ratio
+        let mostVisible = entries.reduce((prev, current) => {
+          return current.intersectionRatio > prev.intersectionRatio
+            ? current
+            : prev;
+        });
+
+        if (mostVisible.intersectionRatio > 0.15) {
+          // Extract section ID from element ID
+          const elementId = mostVisible.target.id;
+          if (elementId) {
+            // Find the matching section in flatWiki
+            const parts = elementId.split('-');
+            const sectionId = parts[parts.length - 1];
+            
+            // Check if this section exists in our flat structure
+            const matchingSection = flatWiki.find(n => n.id === sectionId);
+            if (matchingSection) {
+              visibleSectionId = sectionId;
+            }
+          }
+        }
+      },
+      {
+        threshold: [0, 0.15, 0.3, 0.5, 0.7, 1.0],
+        rootMargin: "-20% 0px -30% 0px", // Focus on upper-middle of viewport
+      }
+    );
+
+    // Observe all sections and subsections
+    const observeElements = () => {
+      const sections = document.querySelectorAll('.subsection, .nested-item');
+      sections.forEach((section) => {
+        if (section.id && observer) {
+          observer.observe(section);
+        }
+      });
+    };
+
+    // Initial observation with delay
+    setTimeout(observeElements, 200);
+
+    // Re-observe when content changes
+    const mutationObserver = new MutationObserver(() => {
+      setTimeout(observeElements, 100);
+    });
+
+    const articleElement = document.querySelector('.wiki-article');
+    if (articleElement) {
+      mutationObserver.observe(articleElement, {
+        childList: true,
+        subtree: true,
+      });
+    }
+
+    return () => {
+      mutationObserver.disconnect();
+    };
+  });
+
+  onDestroy(() => {
+    if (observer) {
+      observer.disconnect();
+    }
+  });
 </script>
 
 {#if node}
@@ -306,6 +444,35 @@
       </div>
     {/if}
   </article>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="wiki-nav-bottom">
+    <div class="nav-container">
+      {#if prevNode}
+        <a href={getWikiUrl(prevNode.path)} class="nav-button nav-prev">
+          <div class="nav-direction">
+            <i class="fas fa-arrow-left"></i>
+            <span>Previous</span>
+          </div>
+          <div class="nav-title">{prevNode.title}</div>
+        </a>
+      {:else}
+        <div class="nav-button nav-disabled"></div>
+      {/if}
+
+      {#if nextNode}
+        <a href={getWikiUrl(nextNode.path)} class="nav-button nav-next">
+          <div class="nav-direction">
+            <span>Next</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+          <div class="nav-title">{nextNode.title}</div>
+        </a>
+      {:else}
+        <div class="nav-button nav-disabled"></div>
+      {/if}
+    </div>
+  </nav>
 {:else}
   <p>Section not found.</p>
 {/if}
@@ -370,6 +537,7 @@
   .wiki-article {
     margin: 0.5rem 1.5rem;
     line-height: 1.7;
+    padding-bottom: 5rem; /* Space for fixed bottom nav */
   }
 
   .article-header {
@@ -670,5 +838,109 @@
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 1rem;
+  }
+
+  /* Bottom Navigation */
+  .wiki-nav-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 600;
+    background: var(--dark-800);
+    border-top: 2px solid var(--primary-500);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.3);
+  }
+
+  .nav-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0.5rem 1.25rem;
+  }
+
+  .nav-button {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.425rem 0.675rem;
+    border-radius: 6px;
+    background: var(--dark-700);
+    border: 1px solid var(--dark-600);
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .nav-button:not(.nav-disabled):hover {
+    background: var(--dark-600);
+    border-color: var(--primary-500);
+    transform: translateY(-2px);
+  }
+
+  .nav-disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nav-prev {
+    align-items: flex-start;
+  }
+
+  .nav-next {
+    align-items: flex-end;
+  }
+
+  .nav-direction {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--primary-400);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .nav-prev .nav-title {
+    text-align: left;
+  }
+
+  .nav-next .nav-title {
+    text-align: right;
+  }
+
+  @media (max-width: 768px) {
+    .nav-container {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+
+    .nav-button {
+      padding: 0.625rem;
+    }
+
+    .nav-prev,
+    .nav-next {
+      align-items: flex-start;
+    }
+
+    .nav-next .nav-title {
+      text-align: left;
+    }
+
+    .wiki-article {
+      padding-bottom: 8rem; /* More space on mobile for taller nav */
+    }
   }
 </style>

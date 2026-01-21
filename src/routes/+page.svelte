@@ -8,7 +8,6 @@
   import FeatureListSection from "$lib/components/FeatureListSection.svelte";
   import CTASection from "$lib/components/CTASection.svelte";
   import { fetchLatestRelease, type Release } from "$lib";
-  import "@kablan/clean-ui/css/index.css";
 
   import homeImage from "$lib/assets/home.png?enhanced";
   import logsImage from "$lib/assets/logs.png?enhanced";
