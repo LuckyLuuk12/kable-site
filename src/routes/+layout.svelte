@@ -15,12 +15,14 @@
 </svelte:head>
 
 <Navbar />
-<main>
-	{@render children?.()}
-</main>
-{#if !$page.url.pathname.startsWith("/wiki")}
-	<Footer />
-{/if}
+<div class="layout-wrapper">
+	<main>
+		{@render children?.()}
+	</main>
+	{#if !$page.url.pathname.startsWith("/wiki")}
+		<Footer />
+	{/if}
+</div>
 
 <style>
 	@font-face {
@@ -32,9 +34,17 @@
 		font-family: "Minecraft", "Inter", sans-serif;
 		--card: var(--dark-800);
 	}
+
+	.layout-wrapper {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
+
 	:global(main) {
 		padding: 0 !important;
 		gap: 0 !important;
+		flex: 1;
 	}
 	:global(section) {
 		border-radius: 0 !important;

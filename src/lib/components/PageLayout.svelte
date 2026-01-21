@@ -60,7 +60,9 @@
 </div>
 
 <style>
+  :global(html),
   :global(body) {
+    height: 100%;
     background: #0d0d0d;
     color: #e4e4e7;
   }
