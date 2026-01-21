@@ -130,6 +130,7 @@
   }
 
   .article-header h1 {
+    font-family: unset;
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
   }

@@ -2,7 +2,11 @@
 
 export interface Release {
   version: string;
+  name: string;
   platforms: Record<string, { url: string; size: number; filename: string }>;
+  body: string;
+  publishedAt: string;
+  htmlUrl: string;
 }
 
 /**
@@ -62,6 +66,126 @@ function isSignatureFile(name: string): boolean {
 }
 
 /**
+ * Parses a single release data object from GitHub API
+ */
+function parseReleaseData(data: any): Release {
+  // Temporary map of platform -> asset candidates (non-signature)
+  const candidates: Record<string, Array<any>> = {};
+
+  // Parse assets into candidate lists, skipping signature files
+  for (const asset of data.assets || []) {
+    const name = (asset.name || '').toLowerCase();
+    if (!name) continue;
+    if (isSignatureFile(name)) continue;
+
+    let platformKey = '';
+
+    if (
+      name.includes('windows') ||
+      name.includes('.exe') ||
+      name.includes('.msi') ||
+      name.includes('win32') ||
+      name.includes('win64') ||
+      name.includes('x86_64-pc-windows')
+    ) {
+      platformKey = 'windows-x64';
+    } else if (
+      name.includes('darwin') ||
+      name.includes('macos') ||
+      name.includes('mac') ||
+      name.includes('.dmg') ||
+      name.includes('apple') ||
+      name.includes('x86_64-apple-darwin') ||
+      name.includes('aarch64-apple-darwin')
+    ) {
+      platformKey =
+        name.includes('arm64') ||
+          name.includes('aarch64') ||
+          name.includes('apple-silicon')
+          ? 'darwin-arm64'
+          : 'darwin-x64';
+    } else if (
+      name.includes('linux') ||
+      name.includes('.appimage') ||
+      name.includes('.deb') ||
+      name.includes('.rpm') ||
+      name.includes('x86_64-unknown-linux') ||
+      name.includes('gnu') ||
+      name.includes('musl')
+    ) {
+      platformKey = 'linux-x64';
+    }
+
+    if (platformKey) {
+      candidates[platformKey] = candidates[platformKey] || [];
+      candidates[platformKey].push(asset);
+    }
+  }
+
+  // Preference rules for each platform
+  const priorities: Record<string, string[]> = {
+    'windows-x64': ['msi$', 'exe$', 'zip$', 'x64', 'installer'],
+    'darwin-arm64': ['\\.tar\\.gz$', '\\.dmg$', 'tar.gz$', 'zip$'],
+    'darwin-x64': ['\\.tar\\.gz$', '\\.dmg$', 'tar.gz$', 'zip$'],
+    'linux-x64': ['appimage', '\\.appimage$', '\\.deb$', '\\.tar\\.gz$', 'tar.xz$', 'zip$']
+  };
+
+  const platforms: Record<string, { url: string; size: number; filename: string }> = {};
+
+  for (const [key, list] of Object.entries(candidates)) {
+    const prefs = priorities[key] || [];
+    let chosen = null;
+
+    // Try to pick by priority patterns
+    for (const pat of prefs) {
+      const re = new RegExp(pat, 'i');
+      chosen = list.find((a: any) => re.test(a.name));
+      if (chosen) break;
+    }
+
+    // Fallback: choose the largest non-signature asset
+    if (!chosen) {
+      chosen = list.slice().sort((a: any, b: any) => (b.size || 0) - (a.size || 0))[0];
+    }
+
+    if (chosen) {
+      platforms[key] = {
+        url: chosen.browser_download_url,
+        size: chosen.size,
+        filename: chosen.name
+      };
+    }
+  }
+
+  return {
+    version: data.tag_name,
+    name: data.name || data.tag_name,
+    platforms,
+    body: data.body || '',
+    publishedAt: data.published_at,
+    htmlUrl: data.html_url
+  };
+}
+
+/**
+ * Fetches all releases from GitHub
+ */
+export async function fetchReleases(): Promise<Release[]> {
+  try {
+    const response = await fetch(
+      'https://api.github.com/repos/LuckyLuuk12/kable/releases'
+    );
+    if (!response.ok) throw new Error('Failed to fetch');
+
+    const data = await response.json();
+    return data.map(parseReleaseData);
+  } catch (err) {
+    console.error('Error fetching releases:', err);
+    return [];
+  }
+}
+
+/**
  * Fetches the latest release from GitHub
  */
 export async function fetchLatestRelease(): Promise<Release | null> {
@@ -72,99 +196,7 @@ export async function fetchLatestRelease(): Promise<Release | null> {
     if (!response.ok) throw new Error('Failed to fetch');
 
     const data = await response.json();
-
-    // Temporary map of platform -> asset candidates (non-signature)
-    const candidates: Record<string, Array<any>> = {};
-
-    // Parse assets into candidate lists, skipping signature files
-    for (const asset of data.assets || []) {
-      const name = (asset.name || '').toLowerCase();
-      if (!name) continue;
-      if (isSignatureFile(name)) continue;
-
-      let platformKey = '';
-
-      if (
-        name.includes('windows') ||
-        name.includes('.exe') ||
-        name.includes('.msi') ||
-        name.includes('win32') ||
-        name.includes('win64') ||
-        name.includes('x86_64-pc-windows')
-      ) {
-        platformKey = 'windows-x64';
-      } else if (
-        name.includes('darwin') ||
-        name.includes('macos') ||
-        name.includes('mac') ||
-        name.includes('.dmg') ||
-        name.includes('apple') ||
-        name.includes('x86_64-apple-darwin') ||
-        name.includes('aarch64-apple-darwin')
-      ) {
-        platformKey =
-          name.includes('arm64') ||
-            name.includes('aarch64') ||
-            name.includes('apple-silicon')
-            ? 'darwin-arm64'
-            : 'darwin-x64';
-      } else if (
-        name.includes('linux') ||
-        name.includes('.appimage') ||
-        name.includes('.deb') ||
-        name.includes('.rpm') ||
-        name.includes('x86_64-unknown-linux') ||
-        name.includes('gnu') ||
-        name.includes('musl')
-      ) {
-        platformKey = 'linux-x64';
-      }
-
-      if (platformKey) {
-        candidates[platformKey] = candidates[platformKey] || [];
-        candidates[platformKey].push(asset);
-      }
-    }
-
-    // Preference rules for each platform
-    const priorities: Record<string, string[]> = {
-      'windows-x64': ['msi$', 'exe$', 'zip$', 'x64', 'installer'],
-      'darwin-arm64': ['\\.tar\\.gz$', '\\.dmg$', 'tar.gz$', 'zip$'],
-      'darwin-x64': ['\\.tar\\.gz$', '\\.dmg$', 'tar.gz$', 'zip$'],
-      'linux-x64': ['appimage', '\\.appimage$', '\\.deb$', '\\.tar\\.gz$', 'tar.xz$', 'zip$']
-    };
-
-    const platforms: Record<string, { url: string; size: number; filename: string }> = {};
-
-    for (const [key, list] of Object.entries(candidates)) {
-      const prefs = priorities[key] || [];
-      let chosen = null;
-
-      // Try to pick by priority patterns
-      for (const pat of prefs) {
-        const re = new RegExp(pat, 'i');
-        chosen = list.find((a: any) => re.test(a.name));
-        if (chosen) break;
-      }
-
-      // Fallback: choose the largest non-signature asset
-      if (!chosen) {
-        chosen = list.slice().sort((a: any, b: any) => (b.size || 0) - (a.size || 0))[0];
-      }
-
-      if (chosen) {
-        platforms[key] = {
-          url: chosen.browser_download_url,
-          size: chosen.size,
-          filename: chosen.name
-        };
-      }
-    }
-
-    return {
-      version: data.tag_name,
-      platforms
-    };
+    return parseReleaseData(data);
   } catch (err) {
     console.error('Error fetching release:', err);
     return null;
