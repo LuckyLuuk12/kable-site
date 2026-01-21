@@ -421,36 +421,89 @@ export const wikiContent: WikiNode[] = [
     id: "account",
     title: "Account / Profile",
     description: "Manage your Minecraft accounts and view your profile statistics.",
-    paragraphs: [
-      "Kable supports multiple Microsoft and Mojang accounts with seamless switching and automatic token management.",
+    content: [
+      {
+        type: 'paragraph',
+        content: "Kable supports multiple Microsoft and Mojang accounts with seamless switching and automatic token management. Your credentials are stored securely and tokens are refreshed automatically in the background."
+      },
+      {
+        type: 'note',
+        noteType: 'info',
+        content: "Migrating from Mojang to Microsoft? Kable supports both account types, but Microsoft accounts are required for Minecraft 1.19.3 and newer."
+      }
     ],
     children: [
       {
         id: "account-management",
         title: "Account Management",
-        paragraphs: [
-          "Microsoft Account Integration: Secure OAuth2 authentication flow for Microsoft accounts.",
-          "Multi-Account Support: Manage multiple Microsoft or Mojang accounts simultaneously.",
-          "Quick Account Switcher: Rapidly switch between accounts without re-authentication.",
-          "Automatic Token Refresh: Background token renewal ensures seamless gameplay without interruption.",
-          "Account Validation: Verify account status and ownership.",
-          "Account Removal: Delete accounts from the launcher when no longer needed.",
-          "Active Account Selection: Set which account to use as default for game launches.",
-          "Account Statistics Display: View per-account playtime and usage statistics.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Add, switch, and manage multiple accounts with ease. Kable handles all authentication complexity behind the scenes."
+          },
+          {
+            type: 'feature-list',
+            features: [
+              {
+                name: "Microsoft Account Integration",
+                description: "Secure OAuth2 authentication flow connects to Microsoft's official servers. Your password never touches Kable—authentication happens entirely in your browser."
+              },
+              {
+                name: "Multi-Account Support",
+                description: "Manage unlimited Microsoft or Mojang accounts simultaneously. Perfect for families sharing a computer or content creators with multiple accounts."
+              },
+              {
+                name: "Quick Account Switcher",
+                description: "Switch between accounts instantly without re-entering credentials. Tokens are cached securely and refreshed automatically when needed."
+              },
+              {
+                name: "Automatic Token Refresh",
+                description: "Background token renewal runs before tokens expire, ensuring seamless gameplay. No more authentication interruptions mid-session!"
+              },
+              {
+                name: "Account Validation",
+                description: "Verify account status and ownership anytime. Kable checks for valid licenses and warns if accounts need re-authentication."
+              },
+              {
+                name: "Active Account Selection",
+                description: "Set a default account for quick launches, or choose per-installation which account to use. Great for testing mods on different accounts."
+              }
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'warning',
+            content: "Removing an account from Kable deletes its cached tokens but doesn't affect your Microsoft account. You can re-add it anytime."
+          }
         ],
       },
       {
         id: "profile-statistics",
         title: "Profile Statistics",
-        paragraphs: [
-          "Total Playtime: View cumulative time spent across all installations.",
-          "Installation Count: See total number of managed installations.",
-          "Mod Count: Track total installed mods across all installations.",
-          "Resource Pack Count: Monitor total installed resource packs.",
-          "Shader Count: View total installed shader packs.",
-          "World Statistics: Number of worlds, total world size, and favorite world tracking.",
-          "Storage Usage: Detailed disk space breakdown by content type.",
-          "Recent Activity: Review last played installations and gaming sessions.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Track your Minecraft journey with comprehensive statistics across all installations and accounts."
+          },
+          {
+            type: 'table',
+            headers: ['Statistic', 'Description'],
+            rows: [
+              ['Total Playtime', 'Cumulative time spent playing across all installations, tracked per-account'],
+              ['Installation Count', 'Number of managed installations with breakdown by version type (vanilla, modded, snapshot)'],
+              ['Mod Count', 'Total installed mods across all installations with active/disabled split'],
+              ['Resource Pack Count', 'Number of installed resource packs with resolution distribution'],
+              ['Shader Count', 'Total shader packs with compatibility breakdown'],
+              ['World Statistics', 'Number of worlds, total disk usage, favorite worlds, and game mode distribution'],
+              ['Storage Usage', 'Detailed breakdown showing installations, mods, packs, shaders, worlds, and logs'],
+              ['Recent Activity', 'Last 10 played installations with timestamps and session duration']
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'tip',
+            content: "Click any statistic to drill down into detailed views. For example, clicking 'Mod Count' shows a list of all installed mods sorted by size or usage frequency."
+          }
         ],
       },
     ],
@@ -460,39 +513,112 @@ export const wikiContent: WikiNode[] = [
     id: "home-screen",
     title: "Home Screen",
     description: "Your quick access hub for launching games and managing content.",
-    paragraphs: [
-      "The Home Screen provides quick access to your recently played installations, featured content, and important actions.",
+    content: [
+      {
+        type: 'paragraph',
+        content: "The Home Screen is your command center, providing one-click access to recently played installations, curated content recommendations, and essential actions."
+      },
+      {
+        type: 'note',
+        noteType: 'tip',
+        content: "Customize which widgets appear on your home screen in Appearance Settings. Hide what you don't use to reduce clutter!"
+      }
     ],
     children: [
       {
         id: "quick-launch",
         title: "Quick Launch",
-        paragraphs: [
-          "Recently Played Installations: Up to 8 most recent installations displayed for quick access.",
-          "One-Click Launch: Launch installations directly from the home screen.",
-          "Launch Status Indicator: Real-time progress display during game launch.",
-          "Installation Thumbnails: Visual icons for quick identification of your installations.",
-          "RAM Allocation Widget: Quick memory adjustment for selected installation in MB or GB.",
-          "Launch History Tracking: Automatic last_used timestamp updates for sorting.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Your most-played installations at your fingertips. Launch games with a single click and monitor launch progress in real-time."
+          },
+          {
+            type: 'feature-list',
+            features: [
+              {
+                name: "Recently Played Grid",
+                description: "Up to 8 most recent installations displayed with custom icons and metadata. Automatically sorted by last played timestamp."
+              },
+              {
+                name: "One-Click Launch",
+                description: "Click any installation card to start Minecraft immediately. No need to navigate to the Installations page for your favorites."
+              },
+              {
+                name: "Launch Progress Indicator",
+                description: "Real-time progress display shows verification, download, and launch stages. Visual feedback ensures you know exactly what's happening."
+              },
+              {
+                name: "Quick RAM Adjustment",
+                description: "Hover over an installation to reveal a memory slider. Adjust RAM allocation without opening settings—changes persist automatically."
+              },
+              {
+                name: "Installation Thumbnails",
+                description: "Visual icons make identification instant. Choose from emoji templates, upload custom images, or use auto-generated version icons."
+              },
+              {
+                name: "Context Menu Actions",
+                description: "Right-click installations for quick access to edit, duplicate, export, or delete. Keyboard shortcuts supported for power users."
+              }
+            ]
+          }
         ],
       },
       {
         id: "featured-content",
         title: "Featured Content",
-        paragraphs: [
-          "Featured Mods: Curated mod recommendations updated regularly.",
-          "Featured Resource Packs: Popular and trending resource pack showcases.",
-          "Featured Shaders: Highlighted shader packs for beautiful graphics.",
-          "Community Content: User-generated content highlights from the community.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Discover popular mods, stunning shaders, and beautiful resource packs curated by the community and updated regularly."
+          },
+          {
+            type: 'table',
+            headers: ['Widget', 'Content Source', 'Update Frequency'],
+            rows: [
+              ['Featured Mods', 'Modrinth trending + editor picks', 'Daily'],
+              ['Featured Resource Packs', 'Most downloaded + community favorites', 'Weekly'],
+              ['Featured Shaders', 'Performance + visual quality balance', 'Weekly'],
+              ['Community Highlights', 'User submissions + popular uploads', 'Daily']
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'info',
+            content: "Featured content is filtered based on your installation versions. You'll only see mods and packs compatible with what you have installed."
+          }
         ],
       },
       {
         id: "quick-actions",
         title: "Quick Actions",
-        paragraphs: [
-          "New Installation Button: Rapid access to installation creation wizard.",
-          "Import Installation: Quick access to import functionality for existing installations.",
-          "Account Switcher: Quick account change widget without leaving the home screen.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Essential actions accessible without navigating away from the home screen. Get things done faster!"
+          },
+          {
+            type: 'feature-list',
+            features: [
+              {
+                name: "New Installation",
+                description: "Large, prominent button opens the installation creation wizard. Choose vanilla, modded, or snapshot versions with guided setup."
+              },
+              {
+                name: "Import Installation",
+                description: "Quick access to import from .minecraft folders, Kable ZIP files, or other launcher formats. Drag-and-drop supported!"
+              },
+              {
+                name: "Account Switcher Widget",
+                description: "Change active account without leaving the home screen. Displays current account with avatar and quick dropdown selector."
+              }
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'tip',
+            content: "Keyboard shortcut: Press <code>Ctrl+N</code> (or <code>Cmd+N</code> on macOS) to create a new installation from anywhere in the launcher."
+          }
         ],
       },
     ],
@@ -502,64 +628,177 @@ export const wikiContent: WikiNode[] = [
     id: "installations",
     title: "Installations",
     description: "Create, manage, and configure your Minecraft installations.",
-    paragraphs: [
-      "Installations represent individual Minecraft setups with their own versions, mods, settings, and configurations.",
+    content: [
+      {
+        type: 'paragraph',
+        content: "Installations are the heart of Kable Launcher. Each installation is a complete, isolated Minecraft setup with its own version, mods, settings, resource packs, shaders, and configurations. Think of them as profiles, but more powerful."
+      },
+      {
+        type: 'note',
+        noteType: 'info',
+        content: "New to installations? Start simple! Create a vanilla installation first to get familiar, then experiment with mods and different versions."
+      }
     ],
     children: [
       {
         id: "installation-management",
         title: "Installation Management",
-        paragraphs: [
-          "Create New Installation: Guided wizard for creating new installations.",
-          "Version Selection: Choose from vanilla, snapshot, old alpha/beta, or modded versions.",
-          "Mod Loader Selection: Support for Fabric, Forge, Quilt, NeoForge, OptiFine, and Iris.",
-          "Installation Naming: Custom names for easy identification.",
-          "Installation Icons: Assign custom icons from template library.",
-          "Installation Editing: Modify name, version, settings, and Java arguments.",
-          "Installation Deletion: Remove installations with confirmation dialog.",
-          "Installation Duplication: Clone installations with selective content copying.",
-          "Installation Export: Export installations as ZIP archives for sharing or backup.",
-          "Installation Statistics: Track per-installation playtime, last played date, and disk usage.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Comprehensive tools for creating, editing, and organizing your Minecraft installations."
+          },
+          {
+            type: 'feature-list',
+            features: [
+              {
+                name: "Create New Installation",
+                description: "Guided wizard walks you through version selection, mod loader choice, and initial configuration. Setup takes under a minute for vanilla versions."
+              },
+              {
+                name: "Version Selection",
+                description: "Choose from vanilla releases, snapshots, old alpha/beta versions, or modded versions. Complete version history from Classic 0.0.11a to latest release."
+              },
+              {
+                name: "Mod Loader Selection",
+                description: "Automatic installation of Fabric, Forge, Quilt, NeoForge, OptiFine, or Iris. Compatible versions detected automatically based on Minecraft version."
+              },
+              {
+                name: "Installation Editing",
+                description: "Modify name, version, icon, settings, Java arguments, and game directory after creation. No need to recreate from scratch!"
+              },
+              {
+                name: "Installation Duplication",
+                description: "Clone installations with selective content copying. Choose to copy mods, configs, resource packs, shaders, or worlds independently."
+              },
+              {
+                name: "Installation Export/Import",
+                description: "Export as ZIP archives for sharing or backup. Import from Kable ZIPs, vanilla launcher folders, or other launchers."
+              },
+              {
+                name: "Installation Statistics",
+                description: "Track playtime, last played date, total disk usage, and mod/pack counts per-installation."
+              }
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'tip',
+            content: "Name your installations descriptively! Use names like 'Vanilla 1.21', 'Modded - Create Mod', or 'Skyblock Server' to quickly identify them."
+          }
         ],
       },
       {
         id: "adding-installations",
         title: "Adding Installations",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Multiple ways to create installations: build from scratch in the app, import from existing .minecraft folders, or restore from Kable ZIP exports."
+          }
+        ],
         children: [
           {
             id: "new-from-app",
             title: "New from App",
-            paragraphs: [
-              "Version Browser: Browse all Minecraft versions including releases, snapshots, alpha, and beta versions.",
-              "Mod Loader Detection: Automatic detection of compatible mod loaders for selected version.",
-              "Version Manifest Refresh: Update available versions from Mojang servers.",
-              "Quick Setup: Minimal configuration required for standard setups - just pick a version and go.",
-              "Advanced Configuration: Customize Java arguments, game directory, resolution, and more.",
-              "From Template: Create from an existing installation with selective copying of mods and settings.",
+            content: [
+              {
+                type: 'paragraph',
+                content: "The standard way to create installations. Perfect control over every aspect from version to mod loader."
+              },
+              {
+                type: 'feature-list',
+                features: [
+                  {
+                    name: "Version Browser",
+                    description: "Browse complete Minecraft version history: releases, snapshots, old alpha, old beta, and experimental versions. Filter by type and search by version number."
+                  },
+                  {
+                    name: "Mod Loader Detection",
+                    description: "Kable automatically shows compatible mod loaders for your selected version. Fabric, Forge, Quilt, and NeoForge versions fetched from official APIs."
+                  },
+                  {
+                    name: "Quick Setup",
+                    description: "Minimal configuration needed! Just pick a version and go. Defaults are sensible: 2GB RAM, auto-detected Java, standard resolution."
+                  },
+                  {
+                    name: "Advanced Configuration",
+                    description: "Customize Java arguments, game directory, window resolution, JVM memory, launcher visibility, and more before first launch."
+                  },
+                  {
+                    name: "From Template",
+                    description: "Clone an existing installation as a starting point. Selectively copy mods, configs, resource packs, or worlds—great for testing mod combinations."
+                  }
+                ]
+              },
+              {
+                type: 'note',
+                noteType: 'info',
+                content: "Version manifest updates automatically on launch. If you don't see a brand new snapshot, click the refresh button in the version browser."
+              }
             ],
           },
           {
             id: "from-minecraft-folder",
             title: "From .minecraft Folder",
-            paragraphs: [
-              "Folder Selection Dialog: Browse and select existing .minecraft folders from your system.",
-              "Profile Detection: Automatically detect vanilla launcher profiles.",
-              "Version Detection: Identify installed Minecraft versions and mod loaders.",
-              "Mod Migration: Import existing mods with automatic compatibility checking.",
-              "Resource Pack Migration: Import existing resource packs into Kable's system.",
-              "Shader Migration: Import existing shader packs.",
-              "Settings Preservation: Maintain game options and keybindings from original installation.",
-              "World Import: Optionally import saves/worlds from the .minecraft folder.",
+            content: [
+              {
+                type: 'paragraph',
+                content: "Migrate from the vanilla launcher or other launchers by importing existing .minecraft folders. All your content comes with you!"
+              },
+              {
+                type: 'table',
+                headers: ['Import Step', 'What Happens'],
+                rows: [
+                  ['Folder Selection', 'Browse and select .minecraft folder from anywhere on your system'],
+                  ['Profile Detection', 'Kable scans launcher_profiles.json and identifies all vanilla profiles'],
+                  ['Version Detection', 'Analyzes versions/ folder to identify installed Minecraft versions and mod loaders'],
+                  ['Content Discovery', 'Scans mods/, resourcepacks/, shaderpacks/, and saves/ folders'],
+                  ['Import Preview', 'Shows what will be imported with size estimates and conflict warnings'],
+                  ['Selective Import', 'Choose which content to import: mods, packs, shaders, worlds, or settings']
+                ]
+              },
+              {
+                type: 'note',
+                noteType: 'warning',
+                content: "Importing doesn't delete the original .minecraft folder. Your vanilla launcher profiles remain untouched and functional."
+              }
             ],
           },
           {
             id: "from-kable-zip",
             title: "Import from Kable ZIP",
-            paragraphs: [
-              "ZIP Archive Import: Import previously exported Kable installations.",
-              "Metadata Preservation: Maintain all installation metadata including icons and settings.",
-              "Complete Restoration: Full installation recreation including mods, packs, configs, and settings.",
-              "Perfect for sharing installations with friends or backing up your favorite setups.",
+            content: [
+              {
+                type: 'paragraph',
+                content: "Restore installations exported from Kable or shared by other users. Perfect for modpack distribution or cross-computer syncing."
+              },
+              {
+                type: 'feature-list',
+                features: [
+                  {
+                    name: "ZIP Archive Import",
+                    description: "Drag-and-drop or browse for .zip files. Kable validates the archive structure and shows installation metadata before importing."
+                  },
+                  {
+                    name: "Metadata Preservation",
+                    description: "All installation details preserved: name, icon, version, mod loader, Java settings, RAM allocation, and custom configurations."
+                  },
+                  {
+                    name: "Complete Restoration",
+                    description: "Full installation recreation including mods (with version hashes), resource packs, shaders, worlds, configs, and save files."
+                  },
+                  {
+                    name: "Version Matching",
+                    description: "Kable downloads the exact Minecraft version from Mojang's servers if not already cached. No manual version management!"
+                  }
+                ]
+              },
+              {
+                type: 'note',
+                noteType: 'tip',
+                content: "Share your modpack setups with friends! Export an installation, send the ZIP, and they get an identical setup with one click."
+              }
             ],
           },
         ],
@@ -567,13 +806,28 @@ export const wikiContent: WikiNode[] = [
       {
         id: "installation-configuration",
         title: "Installation Configuration",
-        paragraphs: [
-          "Custom Game Directory: Set per-installation game data location.",
-          "JVM Memory Allocation: Configure minimum and maximum heap size (-Xms/-Xmx).",
-          "Custom JVM Arguments: Add advanced Java flags for garbage collection tuning and performance.",
-          "Window Resolution: Set default game window dimensions.",
-          "Java Version Selection: Choose specific Java executable path for each installation.",
-          "Mod Loader Version: Pin specific mod loader versions for stability.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Fine-tune every aspect of how Minecraft runs for each installation. All settings are per-installation and don't affect others."
+          },
+          {
+            type: 'table',
+            headers: ['Configuration', 'Description', 'Example Values'],
+            rows: [
+              ['Game Directory', 'Custom location for installation data. Leave empty to use global directory.', '<code>D:\\Games\\MC-Modded</code>'],
+              ['JVM Memory (-Xms/-Xmx)', 'Minimum and maximum heap size for Java. Higher = better performance for modded.', '2048MB min, 8192MB max'],
+              ['Custom JVM Arguments', 'Advanced Java flags for GC tuning, performance, and debugging.', '<code>-XX:+UseG1GC</code>'],
+              ['Window Resolution', 'Default game window dimensions on launch.', '1920x1080, 2560x1440'],
+              ['Java Version', 'Specific Java executable path. Auto-detect finds best match.', '<code>C:\\Java\\jdk-25</code>'],
+              ['Mod Loader Version', 'Pin specific Fabric/Forge version for stability.', 'Fabric 0.15.3, Forge 49.0.3']
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'warning',
+            content: "Allocating too much RAM (over 12GB) can actually hurt performance due to garbage collection pauses. 4-8GB is ideal for most modpacks."
+          }
         ],
       },
     ],
@@ -583,40 +837,94 @@ export const wikiContent: WikiNode[] = [
     id: "mods",
     title: "Mods",
     description: "Discover, install, and manage Minecraft mods.",
-    paragraphs: [
-      "Kable provides a powerful mod management system with browsing, installation, and conflict detection.",
+    content: [
+      {
+        type: 'paragraph',
+        content: "Kable's mod management system makes installing, organizing, and troubleshooting mods effortless. Browse thousands of mods from Modrinth, manage dependencies automatically, and detect conflicts before they cause crashes."
+      },
+      {
+        type: 'note',
+        noteType: 'info',
+        content: "New to modding? Start with simple mods like JEI (Just Enough Items) or Sodium for performance. Avoid installing too many mods at once—add a few, test, then add more!"
+      }
     ],
     children: [
       {
         id: "mod-manager",
         title: "Mods Manager (Installed)",
-        paragraphs: [
-          "Per-Installation Mod Lists: View and manage mods for each installation separately.",
-          "Mod Information Display: See name, version, author, description, and file size.",
-          "Mod Enable/Disable Toggle: Quick mod activation without deletion.",
-          "Mod Deletion: Remove unwanted mods permanently.",
-          "Mod File Management: Direct access to mod JAR files in file explorer.",
-          "Mod Conflict Detection: Identify incompatible mod combinations automatically.",
-          "Mod Dependency Resolution: Automatic detection and installation of required dependencies.",
-          "Disabled Mods Folder: Organized storage in disabled/ subfolder for easy re-enabling.",
-          "Mod Metadata Parsing: Automatic extraction from fabric.mod.json, mods.toml, and other formats.",
-          "Mod Version Detection: Display installed mod versions with update indicators.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Your installed mods dashboard. View, enable/disable, update, and troubleshoot mods all in one place."
+          },
+          {
+            type: 'feature-list',
+            features: [
+              {
+                name: "Per-Installation Mod Lists",
+                description: "Each installation has its own mod collection. Switch between installations to see different mod lists—no confusion, no conflicts."
+              },
+              {
+                name: "Rich Mod Information",
+                description: "See mod name, version, author, description, file size, and dependencies. Hover for full descriptions and links to mod pages."
+              },
+              {
+                name: "Enable/Disable Toggle",
+                description: "Quickly test without mods by toggling them off. Disabled mods move to <code>disabled/</code> folder and won't load. Perfect for troubleshooting crashes."
+              },
+              {
+                name: "Conflict Detection",
+                description: "Kable automatically identifies incompatible mod combinations based on known issues and version mismatches. Warnings appear with suggested fixes."
+              },
+              {
+                name: "Dependency Resolution",
+                description: "Missing dependencies highlighted with one-click install buttons. Kable downloads required libraries automatically from Modrinth."
+              },
+              {
+                name: "Mod Metadata Parsing",
+                description: "Automatic extraction from <code>fabric.mod.json</code>, <code>mods.toml</code> (Forge), and <code>quilt.mod.json</code>. No manual metadata entry needed!"
+              },
+              {
+                name: "Update Indicators",
+                description: "Badge indicators show when newer mod versions are available. Click to view changelog and update with one click."
+              }
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'tip',
+            content: "Right-click any mod for quick actions: open in file explorer, view on Modrinth, check dependencies, or copy mod ID to clipboard."
+          }
         ],
       },
       {
         id: "mod-browser",
         title: "Mod Browser",
-        paragraphs: [
-          "Modrinth Integration: Browse and download from the Modrinth mod repository.",
-          "Search Functionality: Search mods by name, author, or tags.",
-          "Category Filters: Filter by mod category like technology, magic, utility, adventure, and more.",
-          "Version Compatibility Filtering: Show only mods compatible with your installation's version.",
-          "Mod Loader Filtering: Filter by Fabric, Forge, Quilt, or NeoForge compatibility.",
-          "Mod Details View: View description, screenshots, changelog, and dependencies.",
-          "Download Statistics: See download counts and popularity metrics.",
-          "Direct Installation: One-click download and install to selected installation.",
-          "Dependency Auto-Install: Automatically download and install required dependencies.",
-          "Version Selection: Choose specific mod versions for download.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Discover and install mods directly from Modrinth without leaving the launcher. Search, filter, and download with automatic dependency handling."
+          },
+          {
+            type: 'table',
+            headers: ['Feature', 'Description'],
+            rows: [
+              ['Modrinth Integration', 'Official API integration for reliable, fast mod downloads from Modrinth\'s CDN'],
+              ['Search', 'Search by mod name, author, or tags. Supports fuzzy matching for typo tolerance'],
+              ['Category Filters', 'Filter by type: Technology, Magic, Utility, Adventure, Decoration, Food, Optimization, Library, and more'],
+              ['Version Compatibility', 'Shows only mods compatible with your installation\'s Minecraft version. No manual checking needed!'],
+              ['Mod Loader Filtering', 'Fabric, Forge, Quilt, or NeoForge. Incompatible loaders automatically hidden'],
+              ['Mod Details View', 'Full description, screenshots, changelog, gallery, dependencies, and version history'],
+              ['Download Statistics', 'See download counts, popularity rankings, and update frequency to judge mod quality'],
+              ['One-Click Install', 'Download and install with dependencies in one click. Progress tracked in real-time'],
+              ['Version Selection', 'Choose specific mod versions for compatibility or rollback to older releases']
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'warning',
+            content: "Always read mod descriptions and requirements! Some mods require specific configurations or are incompatible with others."
+          }
         ],
       },
     ],
@@ -626,36 +934,86 @@ export const wikiContent: WikiNode[] = [
     id: "resourcepacks",
     title: "Resource Packs",
     description: "Customize Minecraft's textures and sounds with resource packs.",
-    paragraphs: [
-      "Manage resource packs per-installation or globally across all installations.",
+    content: [
+      {
+        type: 'paragraph',
+        content: "Transform Minecraft's visual and audio experience with resource packs. Change textures, models, sounds, music, fonts, and more without modifying game code."
+      },
+      {
+        type: 'note',
+        noteType: 'tip',
+        content: "Resource packs can be layered! Higher packs in the list override lower ones, letting you mix textures from multiple packs."
+      }
     ],
     children: [
       {
         id: "rp-manager",
         title: "Resource Packs Manager (Installed)",
-        paragraphs: [
-          "Per-Installation Packs: View and manage packs for specific installations.",
-          "Global Resource Packs: Shared packs from .minecraft/resourcepacks available to all installations.",
-          "Pack Enable/Disable: Toggle pack activation without deletion.",
-          "Pack Deletion: Remove unwanted packs permanently.",
-          "Pack Information: View name, version, description, resolution, and file size.",
-          "Pack Order Management: Reorder packs for layering priority (top packs override lower ones).",
-          "Pack Merging: Enable or disable resource pack merging.",
-          "Disabled Packs Folder: Organized storage in disabled/ subfolder.",
-          "Pack Preview: Display thumbnail/icon from pack.png for visual identification.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Manage installed resource packs with drag-and-drop ordering, preview thumbnails, and instant enable/disable toggles."
+          },
+          {
+            type: 'feature-list',
+            features: [
+              {
+                name: "Per-Installation & Global Packs",
+                description: "Choose whether packs are installation-specific or shared globally. Global packs save disk space, per-installation packs prevent conflicts."
+              },
+              {
+                name: "Pack Ordering",
+                description: "Drag packs to reorder priority. Top packs override bottom packs—perfect for combining textures from multiple packs."
+              },
+              {
+                name: "Pack Information",
+                description: "View name, version, pack format, resolution (16x, 32x, 64x, etc.), file size, and compatibility with your Minecraft version."
+              },
+              {
+                name: "Pack Preview Thumbnails",
+                description: "Visual previews extracted from <code>pack.png</code> for instant identification. No more guessing which pack is which!"
+              },
+              {
+                name: "Enable/Disable Toggle",
+                description: "Test packs individually by toggling them on/off. Disabled packs moved to <code>disabled/</code> folder automatically."
+              },
+              {
+                name: "Resolution Detection",
+                description: "Automatically detect pack resolution and warn if your GPU may struggle with high-res textures (512x+)."
+              }
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'warning',
+            content: "High-resolution packs (128x and above) require significantly more VRAM. Use 64x or lower on systems with less than 4GB VRAM."
+          }
         ],
       },
       {
         id: "rp-browser",
         title: "Resource Pack Browser",
-        paragraphs: [
-          "Modrinth Integration: Browse and download resource packs from Modrinth.",
-          "Search and Filters: Find packs by name, resolution, or visual style.",
-          "Minecraft Version Filtering: Show only packs compatible with your version.",
-          "Pack Resolution Filtering: Filter by 16x, 32x, 64x, 128x, 256x, and higher resolutions.",
-          "Pack Details View: View screenshots, description, and changelog.",
-          "Direct Installation: One-click download to selected installation or global packs folder.",
-          "Pack Version Selection: Choose specific pack versions for download.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Browse and download resource packs from Modrinth with advanced filtering by resolution, style, and version compatibility."
+          },
+          {
+            type: 'table',
+            headers: ['Filter', 'Options'],
+            rows: [
+              ['Resolution', '16x (Vanilla+), 32x, 64x, 128x, 256x, 512x, 1024x'],
+              ['Style', 'Realistic, Cartoon, Medieval, Modern, Sci-Fi, Fantasy, Pixel Art'],
+              ['Content Type', 'Textures Only, Sounds Only, Models, Complete Overhaul'],
+              ['Minecraft Version', 'Automatic filtering based on your installation version'],
+              ['Pack Format', 'Latest format versions with backward compatibility indicators']
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'info',
+            content: "Most resource packs work across multiple Minecraft versions! Pack format changes are rare, so a 1.19 pack often works fine in 1.21."
+          }
         ],
       },
     ],
@@ -665,37 +1023,85 @@ export const wikiContent: WikiNode[] = [
     id: "shaders",
     title: "Shaders",
     description: "Enhance Minecraft's graphics with shader packs.",
-    paragraphs: [
-      "Shader packs require Iris or OptiFine to be installed. Manage shaders per-installation or globally.",
+    content: [
+      {
+        type: 'paragraph',
+        content: "Shader packs transform Minecraft's visuals with realistic lighting, shadows, water reflections, and atmospheric effects. Powered by Iris (Fabric) or OptiFine (Forge)."
+      },
+      {
+        type: 'note',
+        noteType: 'warning',
+        content: "Shaders require Iris or OptiFine to be installed! Install the appropriate mod loader first, then add your shader pack."
+      }
     ],
     children: [
       {
         id: "shader-manager",
         title: "Shaders Manager (Installed)",
-        paragraphs: [
-          "Per-Installation Shaders: View and manage shaders for specific installations.",
-          "Global Shaders: Shared shaders from .minecraft/shaderpacks available to all installations.",
-          "Shader Enable/Disable: Toggle shader activation without deletion.",
-          "Shader Deletion: Remove unwanted shader packs.",
-          "Shader Information: View name, version, author, and description.",
-          "Dedicated vs Global Mode: Install to specific installation or make globally available.",
-          "Shader Preview: Visual preview or screenshot display for shaders.",
-          "Shader Settings Access: Quick access to shader configuration files.",
-          "Iris/OptiFine Compatibility: Automatic detection of installed shader mod support.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Manage shader packs with automatic compatibility detection and performance profiling."
+          },
+          {
+            type: 'feature-list',
+            features: [
+              {
+                name: "Iris/OptiFine Detection",
+                description: "Kable automatically detects which shader mod is installed and shows compatible shaders. Warns if neither Iris nor OptiFine is present."
+              },
+              {
+                name: "Shader Information",
+                description: "View shader name, version, author, description, and performance profile (High/Medium/Low impact)."
+              },
+              {
+                name: "Performance Profiling",
+                description: "Kable estimates FPS impact based on shader features. High-end shaders marked with warning for low-spec systems."
+              },
+              {
+                name: "Shader Configuration Access",
+                description: "Quick links to shader settings files for advanced tweaking. Edit directly or use in-game shader settings."
+              },
+              {
+                name: "Per-Installation & Global Modes",
+                description: "Install to specific installation or make globally available. Great for testing shaders across different Minecraft versions."
+              },
+              {
+                name: "Shader Preview Screenshots",
+                description: "Visual previews show lighting, water, and atmosphere effects so you know what to expect before enabling."
+              }
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'tip',
+            content: "Start with lightweight shaders like Sildur's Enhanced Default or BSL if you have a mid-range GPU. SEUS PTGI is gorgeous but requires high-end hardware!"
+          }
         ],
       },
       {
         id: "shader-browser",
         title: "Shader Browser",
-        paragraphs: [
-          "Modrinth Integration: Browse and download shader packs from Modrinth.",
-          "Search and Filters: Find shaders by name, visual style, or performance.",
-          "Minecraft Version Filtering: Show only compatible shaders for your version.",
-          "Performance Category: Filter by performance impact (high/medium/low).",
-          "Shader Type Filtering: Filter by popular types like BSL, Complementary, SEUS, and more.",
-          "Shader Details View: View screenshots, description, and system requirements.",
-          "Download to Installation or Global: Choose installation scope during download.",
-          "Version Selection: Download specific shader pack versions.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Browse popular shader packs from Modrinth with filtering by performance impact and visual style."
+          },
+          {
+            type: 'table',
+            headers: ['Performance Level', 'Description', 'Popular Shaders'],
+            rows: [
+              ['Low Impact', 'Subtle improvements, 60+ FPS on most systems', 'Vanilla Plus, Sildur\'s Enhanced Default'],
+              ['Medium Impact', 'Balanced visuals and performance, 40-60 FPS', 'BSL, Complementary, MakeUp Ultra Fast'],
+              ['High Impact', 'Stunning graphics, requires powerful GPU (30-60 FPS)', 'Complementary Reimagined, Continuum'],
+              ['Ultra Impact', 'Photorealistic, ray-traced (RTX/high-end GPU needed)', 'SEUS PTGI, Continuum RT']
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'info',
+            content: "Shader performance varies by scene complexity! Dense forests and underwater areas are more demanding than plains or deserts."
+          }
         ],
       },
     ],
@@ -705,27 +1111,47 @@ export const wikiContent: WikiNode[] = [
     id: "worlds",
     title: "Worlds (Maps)",
     description: "Manage your Minecraft worlds and saves.",
-    paragraphs: [
-      "View, organize, and manage all your Minecraft worlds across all installations.",
+    content: [
+      {
+        type: 'paragraph',
+        content: "Centralized world management across all installations. View, backup, import, export, and organize your Minecraft worlds from one convenient dashboard."
+      },
+      {
+        type: 'note',
+        noteType: 'tip',
+        content: "Enable auto-backups in Content Settings to automatically save world copies before each launch. Protects against corruption and accidental deletions!"
+      }
     ],
     children: [
       {
         id: "world-management",
         title: "World Management",
-        paragraphs: [
-          "World List Display: View all detected Minecraft worlds from all installations.",
-          "World Information: See name, game mode, last played date, file size, and version.",
-          "Game Mode Detection: Identify Survival, Creative, Adventure, Spectator, and Hardcore worlds.",
-          "World Search: Filter worlds by name or game mode.",
-          "Category Filtering: Filter by game mode category for easy navigation.",
-          "Sort Options: Sort by name, last played date, or size.",
-          "World Deletion: Remove worlds with confirmation dialog to prevent accidents.",
-          "World Statistics: View total worlds, cumulative size, and disk usage.",
-          "World Backup: Export worlds as ZIP archives for safekeeping or sharing.",
-          "World Import: Import worlds from ZIP files or other directories.",
-          "World Directory Access: Open saves folder directly in file explorer.",
-          "Multi-Installation World Detection: Scan all installation game directories automatically.",
-          "Favorite Worlds: Mark and filter your favorite worlds for quick access.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Comprehensive world browser with search, filtering, backup/restore, and cross-installation world transfer."
+          },
+          {
+            type: 'table',
+            headers: ['Feature', 'Description'],
+            rows: [
+              ['Multi-Installation Detection', 'Automatically scans all installation saves/ folders and aggregates worlds in one list'],
+              ['World Information', 'Name, game mode, difficulty, last played date, Minecraft version, seed, file size'],
+              ['Game Mode Detection', 'Icons and badges for Survival, Creative, Adventure, Spectator, and Hardcore'],
+              ['Search & Filter', 'Search by world name, filter by game mode, sort by name/date/size'],
+              ['World Backup (Export)', 'Create ZIP archives of worlds for safekeeping or sharing. Includes level.dat and all region files'],
+              ['World Import', 'Import from ZIP files, other launchers, or manual world folders. Validates structure before importing'],
+              ['World Transfer', 'Copy/move worlds between installations with one click. Automatic version compatibility checking'],
+              ['Favorite Worlds', 'Star your favorite worlds for quick filtering and priority sorting'],
+              ['World Statistics', 'Total world count, cumulative size, playtime per-world (if tracked)'],
+              ['Directory Access', 'Open world folder directly in file explorer for manual editing or backup']
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'warning',
+            content: "Moving worlds between major Minecraft versions (e.g., 1.12 → 1.21) may cause issues. Always backup before upgrading world versions!"
+          }
         ],
       },
     ],
@@ -735,32 +1161,90 @@ export const wikiContent: WikiNode[] = [
     id: "skins",
     title: "Skins",
     description: "Customize your Minecraft character appearance.",
-    paragraphs: [
-      "Upload, manage, and preview your Minecraft skins with an interactive 3D viewer.",
+    content: [
+      {
+        type: 'paragraph',
+        content: "Upload, manage, and preview your Minecraft skins with an interactive 3D viewer. Support for both Steve (classic) and Alex (slim) models."
+      },
+      {
+        type: 'note',
+        noteType: 'info',
+        content: "Skin changes upload directly to Mojang's servers, so your skin appears in all launchers and on multiplayer servers automatically!"
+      }
     ],
     children: [
       {
         id: "skin-selection",
         title: "Skin Selection",
-        paragraphs: [
-          "Current Skin Display: 3D preview of your active Minecraft skin with rotation controls.",
-          "Skin Model Selection: Choose between Steve (classic) or Alex (slim) model.",
-          "Skin Upload: Upload custom skins from PNG files.",
-          "Skin Reset: Restore to default Minecraft skin.",
-          "Recent Skins: History of previously used skins for quick switching.",
-          "Skin Library: Browse and apply saved skins from your collection.",
-          "Skin Preview Rotation: Interactive 3D skin viewer with mouse or touch controls.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Full-featured skin manager with 3D preview, model selection, and upload/download functionality."
+          },
+          {
+            type: 'feature-list',
+            features: [
+              {
+                name: "Interactive 3D Preview",
+                description: "Real-time 3D skin viewer with mouse/touch rotation controls. See your skin from every angle before uploading."
+              },
+              {
+                name: "Model Selection",
+                description: "Choose between Steve (classic 4px arms) or Alex (slim 3px arms) models. Preview updates instantly to show the difference."
+              },
+              {
+                name: "Skin Upload",
+                description: "Upload custom skins from PNG files (64x64 or 64x32 formats). Automatic validation ensures correct dimensions and format."
+              },
+              {
+                name: "Skin Download",
+                description: "Download your current skin as PNG for editing in external tools. Perfect for making small tweaks and re-uploading."
+              },
+              {
+                name: "Recent Skins History",
+                description: "Keep a history of previously used skins for quick switching. No need to re-upload skins you've used before!"
+              },
+              {
+                name: "Skin Library",
+                description: "Save favorite skins to a personal library. Organize by category and apply with one click."
+              },
+              {
+                name: "Reset to Default",
+                description: "Restore to the default Steve or Alex skin anytime. Useful for troubleshooting or returning to vanilla appearance."
+              }
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'tip',
+            content: "Create skins using free tools like Skindex, Minecraft Skin Editor, or Novaskin. Import PNGs directly into Kable!"
+          }
         ],
       },
       {
         id: "skin-editor",
         title: "Skin Editor (Planned)",
-        paragraphs: [
-          "In-App Skin Editor: Create and modify skins without external tools (coming soon).",
-          "Layer-Based Editing: Edit skin layers independently for advanced customization.",
-          "Color Picker: Advanced color selection tools.",
-          "Import/Export: Load and save skin files in various formats.",
-          "Template Library: Pre-made skin templates to start from.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "In-app skin editor coming soon! Edit skins without external tools, right inside Kable Launcher."
+          },
+          {
+            type: 'table',
+            headers: ['Planned Feature', 'Description'],
+            rows: [
+              ['Layer-Based Editing', 'Edit head, body, arms, legs independently with layer visibility toggles'],
+              ['Color Picker', 'Advanced HSL color picker with palette saving and color history'],
+              ['Brush Tools', 'Pencil, fill bucket, eraser, eyedropper, and selection tools'],
+              ['Template Library', 'Pre-made skin templates to start from (casual, medieval, fantasy, etc.)'],
+              ['Import/Export', 'Load existing skins, edit, and save as new files']
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'info',
+            content: "Vote for this feature on GitHub! Community feedback helps prioritize development."
+          }
         ],
       },
     ],
@@ -770,48 +1254,132 @@ export const wikiContent: WikiNode[] = [
     id: "logs",
     title: "Logs",
     description: "View and manage launcher and game logs for troubleshooting.",
-    paragraphs: [
-      "Comprehensive logging system with real-time streaming, filtering, and search capabilities.",
+    content: [
+      {
+        type: 'paragraph',
+        content: "Comprehensive logging system with real-time streaming, filtering, search, and export capabilities. Essential for troubleshooting crashes, bugs, and performance issues."
+      },
+      {
+        type: 'note',
+        noteType: 'tip',
+        content: "When reporting bugs, always include logs! Use the Export button to save logs as text files for sharing on GitHub or Discord."
+      }
     ],
     children: [
       {
         id: "launcher-logs",
         title: "Launcher Logs",
-        paragraphs: [
-          "Real-Time Log Streaming: Live log display during launcher operations.",
-          "Log Level Filtering: Filter by debug, info, warn, or error levels.",
-          "Search Functionality: Search logs with normal text, regex, or fuzzy matching.",
-          "Auto-Scroll: Automatic scrolling to latest entries (toggleable).",
-          "Virtual Scrolling: Efficient rendering of large log files without performance impact.",
-          "Log Export: Copy logs to clipboard or save to file.",
-          "Persistent Logging: Save logs to disk for later review.",
-          "Log Rotation: Automatic log file rotation and compression.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Monitor Kable Launcher's internal operations, API calls, file operations, and errors."
+          },
+          {
+            type: 'feature-list',
+            features: [
+              {
+                name: "Real-Time Streaming",
+                description: "Logs appear instantly as events occur. Watch downloads, authentications, and file operations happen live."
+              },
+              {
+                name: "Log Level Filtering",
+                description: "Filter by DEBUG (verbose), INFO (normal), WARN (potential issues), or ERROR (critical problems). Hide noise, see what matters."
+              },
+              {
+                name: "Search with Regex",
+                description: "Search logs with plain text, regular expressions, or fuzzy matching. Find specific errors or patterns quickly."
+              },
+              {
+                name: "Auto-Scroll Toggle",
+                description: "Auto-scroll to latest entries (on by default). Disable to read historical logs without jumping to bottom."
+              },
+              {
+                name: "Virtual Scrolling",
+                description: "Handles thousands of log lines without performance degradation. Smooth scrolling even with 10,000+ entries."
+              },
+              {
+                name: "Export Functionality",
+                description: "Copy logs to clipboard or save to file (.txt or .log). Includes timestamps and log levels for context."
+              }
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'info',
+            content: "Enable persistent logging in Settings to save logs to disk. Great for tracking down intermittent issues that don't happen every launch."
+          }
         ],
       },
       {
         id: "game-logs",
         title: "Game Logs",
-        paragraphs: [
-          "Per-Instance Logs: Separate logs for each running game instance.",
-          "Minecraft Output Capture: Real-time STDOUT/STDERR capture from game process.",
-          "Crash Detection: Automatic crash log detection and highlighting.",
-          "Log Parsing: Formatted display of Minecraft log entries.",
-          "Error Highlighting: Visual emphasis on errors and warnings.",
-          "Game Instance Tracking: Monitor multiple simultaneous game instances.",
-          "Exit Code Display: Show process exit codes for debugging crashes.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Capture and display Minecraft's console output (STDOUT/STDERR) with crash detection and error highlighting."
+          },
+          {
+            type: 'table',
+            headers: ['Feature', 'Description'],
+            rows: [
+              ['Per-Instance Logs', 'Separate log tabs for each running Minecraft instance. Perfect for testing multiple versions simultaneously'],
+              ['Output Capture', 'Real-time capture of game console output with line buffering for accuracy'],
+              ['Crash Detection', 'Automatically identifies crash reports and highlights them with red badges'],
+              ['Error Highlighting', 'Errors and warnings color-coded for quick visual scanning'],
+              ['Log Parsing', 'Formatted display of Minecraft log entries with timestamp extraction'],
+              ['Exit Code Display', 'Shows process exit codes (0 = success, non-zero = crash/error)'],
+              ['Multi-Instance Support', 'Run and monitor logs from multiple Minecraft instances at once']
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'warning',
+            content: "Minecraft crash logs are also saved to <code>crash-reports/</code> in your game directory. Kable displays them, but files persist separately."
+          }
         ],
       },
       {
         id: "log-management",
         title: "Log Management",
-        paragraphs: [
-          "Log Compression: GZIP compression for old logs to save disk space.",
-          "Log Retention Policy: Automatic cleanup based on age or size limits.",
-          "Log Directory Access: Open logs folder in file explorer for manual access.",
-          "Log Deduplication: Remove consecutive duplicate entries to reduce noise.",
-          "Memory-Efficient Logging: Configurable in-memory log limits for performance.",
-          "Log Level Configuration: Set default visible log levels.",
-          "Merge Log Views: Combined launcher and game log display in single view.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Control how logs are stored, compressed, and cleaned up to save disk space and maintain performance."
+          },
+          {
+            type: 'feature-list',
+            features: [
+              {
+                name: "Log Compression",
+                description: "GZIP compression reduces log file size by 80-90%. Compressed logs remain searchable and readable."
+              },
+              {
+                name: "Retention Policies",
+                description: "Auto-delete logs older than N days or when size exceeds limit. Configurable in Logging Settings."
+              },
+              {
+                name: "Log Deduplication",
+                description: "Collapses consecutive duplicate entries (e.g., '100 lines hidden'). Reduces noise from repeated errors."
+              },
+              {
+                name: "Memory-Efficient Mode",
+                description: "Limits in-memory log buffer to prevent RAM usage from growing indefinitely during long sessions."
+              },
+              {
+                name: "Directory Access",
+                description: "Open logs folder in file explorer for manual access, archiving, or sharing entire log histories."
+              },
+              {
+                name: "Merged View Option",
+                description: "Combine launcher and game logs into single chronological view. Perfect for correlating launcher actions with game events."
+              }
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'tip',
+            content: "Set <code>max_memory_logs</code> to 10,000+ if you frequently scroll through long log histories. Lower it to 1,000-2,000 on systems with limited RAM."
+          }
         ],
       },
     ],
@@ -821,70 +1389,200 @@ export const wikiContent: WikiNode[] = [
     id: "advanced",
     title: "Advanced",
     description: "Advanced features for power users and developers.",
-    paragraphs: [
-      "Advanced tools for symlink management, system information, debugging, and integrations.",
+    content: [
+      {
+        type: 'paragraph',
+        content: "Power user tools for symlink management, system diagnostics, debugging, Discord integration, and update control. These features are hidden by default—enable 'Show Advanced Page' in Settings to access them."
+      },
+      {
+        type: 'note',
+        noteType: 'warning',
+        content: "Advanced features can affect launcher stability if misused. Only modify settings if you understand their impact!"
+      }
     ],
     children: [
       {
         id: "symlink-management",
         title: "Symlink Management",
-        paragraphs: [
-          "Symlink List Display: View all managed symbolic links in one place.",
-          "Create Symlink: Create new symlinks for mods, packs, shaders, and other content.",
-          "Edit Symlink: Modify source and destination paths of existing symlinks.",
-          "Delete Symlink: Remove symbolic links safely.",
-          "Toggle Symlink: Enable or disable symlinks without deletion.",
-          "Per-Installation Symlinks: Link content to specific installations only.",
-          "Global Symlinks: Link content accessible to all installations.",
-          "Symlink Validation: Check symlink integrity and verify targets exist.",
-          "Automatic Symlink Refresh: Update symlinks when installations change.",
-          "Path Display: Full source and destination paths with copy to clipboard functionality.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Create and manage symbolic links for sharing mods, resource packs, and shaders between installations or linking to external folders."
+          },
+          {
+            type: 'feature-list',
+            features: [
+              {
+                name: "Create Symlinks",
+                description: "Link content folders to external locations. Perfect for syncing mods via Dropbox or pointing to a network drive."
+              },
+              {
+                name: "Per-Installation & Global Links",
+                description: "Create symlinks for specific installations or globally for all. Link <code>mods/</code> to a shared folder to save disk space."
+              },
+              {
+                name: "Symlink Validation",
+                description: "Automatic checking for broken links (target deleted/moved). Warnings appear with one-click fix options."
+              },
+              {
+                name: "Toggle Symlinks",
+                description: "Enable or disable symlinks without deleting them. Useful for temporarily using local content instead of linked."
+              },
+              {
+                name: "Path Display",
+                description: "Full source and destination paths shown with copy-to-clipboard buttons. Verify links point to correct locations."
+              },
+              {
+                name: "Auto-Refresh",
+                description: "Symlinks automatically update when installations change. No manual re-linking needed when moving game directories."
+              }
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'info',
+            content: "Symlinks require administrator privileges on Windows. Kable will prompt for elevation when creating links."
+          }
         ],
       },
       {
         id: "system-information",
         title: "System Information",
-        paragraphs: [
-          "Java Detection: List all installed Java versions on your system.",
-          "Java Auto-Detection: Automatic Java path discovery for convenience.",
-          "System Resource Monitoring: Real-time RAM, CPU, and disk usage display.",
-          "Platform Information: OS version, architecture, and system details.",
-          "Launcher Version: Current launcher version and update status.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "View system specs, installed Java versions, and real-time resource monitoring."
+          },
+          {
+            type: 'table',
+            headers: ['Information', 'Details'],
+            rows: [
+              ['Java Detection', 'Lists all installed JDKs/JREs with version numbers and installation paths'],
+              ['Java Auto-Detection', 'Scans common installation directories (Program Files, JAVA_HOME, PATH)'],
+              ['System Resources', 'Real-time RAM usage, CPU load, and disk space for all drives'],
+              ['Platform Information', 'OS name, version, architecture (x64/ARM64), hostname'],
+              ['Launcher Version', 'Current version, build date, and update channel (stable/nightly)']
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'tip',
+            content: "Use system info when troubleshooting! Share OS version, Java version, and RAM info when reporting issues on GitHub."
+          }
         ],
       },
       {
         id: "debug-tools",
         title: "Debug Tools",
-        paragraphs: [
-          "Developer Mode: Enable advanced debugging features and verbose output.",
-          "API Endpoint Testing: Test Mojang and Microsoft authentication endpoints.",
-          "Cache Management: Clear launcher caches (versions, installations, metadata).",
-          "Configuration Reset: Reset all settings to defaults.",
-          "Database Access: View and modify internal launcher database (advanced users only).",
-          "Network Request Logging: Monitor all HTTP/HTTPS requests for debugging.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Developer-focused tools for troubleshooting, cache management, and network diagnostics."
+          },
+          {
+            type: 'feature-list',
+            features: [
+              {
+                name: "Developer Mode",
+                description: "Enable verbose logging, show all API responses, and display hidden debug UI elements. Logs every network request and file operation."
+              },
+              {
+                name: "API Endpoint Testing",
+                description: "Test connectivity to Mojang, Microsoft, and Modrinth APIs. Diagnose authentication failures and network issues."
+              },
+              {
+                name: "Cache Management",
+                description: "Clear version manifests, mod metadata, texture caches, or all caches. Fixes corruption issues and frees disk space."
+              },
+              {
+                name: "Configuration Reset",
+                description: "Reset all settings to defaults without uninstalling. Useful for recovering from misconfiguration."
+              },
+              {
+                name: "Database Access",
+                description: "View and modify launcher's internal SQLite database. Advanced users only—incorrect edits can break the launcher!"
+              },
+              {
+                name: "Network Request Logging",
+                description: "Monitor all HTTP/HTTPS requests with headers, payloads, and response codes. Debug download failures and API errors."
+              }
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'warning',
+            content: "Modifying the database directly can corrupt your installations! Always backup <code>launcher.db</code> before editing."
+          }
         ],
       },
       {
         id: "discord-integration",
         title: "Discord Integration",
-        paragraphs: [
-          "Rich Presence: Show your playing status in Discord automatically.",
-          "Installation Display: Show currently playing installation name.",
-          "Mod Count Display: Show number of active mods in rich presence.",
-          "Playtime Tracking: Display session playtime in Discord.",
-          "Privacy Controls: Enable or disable Discord integration entirely.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Show your Minecraft activity in Discord with Rich Presence integration."
+          },
+          {
+            type: 'table',
+            headers: ['Display Element', 'What It Shows'],
+            rows: [
+              ['Status', 'Playing Minecraft via Kable Launcher'],
+              ['Installation Name', 'Currently running installation (e.g., "Modded 1.21 - Create Mod")'],
+              ['Mod Count', 'Number of active mods (e.g., "67 mods active")'],
+              ['Session Time', 'Elapsed playtime for current session'],
+              ['Launcher Icon', 'Kable Launcher logo as activity icon']
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'info',
+            content: "Privacy controls let you disable Rich Presence entirely or hide specific information like mod counts. Configure in Appearance Settings."
+          }
         ],
       },
       {
         id: "update-management",
         title: "Update Management",
-        paragraphs: [
-          "Update Checker: Manual and automatic update checking.",
-          "Release Channel Selection: Choose between stable releases or nightly builds.",
-          "Update Download: In-app update downloading with progress indication.",
-          "Update Installation: Automatic or manual update application.",
-          "Release Notes: View changelog for available updates.",
-          "Version Comparison: Visual diff of current vs available version.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Control when and how Kable Launcher updates itself."
+          },
+          {
+            type: 'feature-list',
+            features: [
+              {
+                name: "Manual & Automatic Checking",
+                description: "Check for updates on-demand or automatically on launch. Configure in General Settings."
+              },
+              {
+                name: "Release Channels",
+                description: "Choose stable releases (recommended) or nightly builds (cutting-edge features, potential bugs)."
+              },
+              {
+                name: "In-App Updates",
+                description: "Download updates directly in the launcher with progress indication. No manual download needed!"
+              },
+              {
+                name: "Update Modes",
+                description: "Install updates instantly, on next restart, or prompt each time. Controlled by <code>update_mode</code> setting."
+              },
+              {
+                name: "Release Notes",
+                description: "View detailed changelog for available updates. See what's new, what's fixed, and breaking changes."
+              },
+              {
+                name: "Version Comparison",
+                description: "Visual diff showing features added/changed between your version and latest release."
+              }
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'tip',
+            content: "Stable releases are thoroughly tested. Only use nightly builds if you want to help test new features and report bugs!"
+          }
         ],
       },
     ],
@@ -894,37 +1592,107 @@ export const wikiContent: WikiNode[] = [
     id: "additional-features",
     title: "Additional Features",
     description: "More features that make Kable powerful and user-friendly.",
+    content: [
+      {
+        type: 'paragraph',
+        content: "Beyond the core features, Kable includes thoughtful touches that improve your Minecraft experience: import/export for sharing, performance optimizations for speed, and strong privacy protections."
+      }
+    ],
     children: [
       {
         id: "import-export",
         title: "Import/Export",
-        paragraphs: [
-          "Installation Export: Create ZIP archives of complete installations for backup or sharing.",
-          "Installation Import: Restore installations from ZIP archives.",
-          "Profile Sharing: Share your complete installation setup with other users.",
-          "Settings Export/Import: Backup and restore launcher settings and preferences.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Share installations, backup configurations, and sync setups between computers with comprehensive import/export tools."
+          },
+          {
+            type: 'table',
+            headers: ['Export Type', 'What\'s Included', 'Use Case'],
+            rows: [
+              ['Installation Export', 'Complete installation: version, mods, configs, packs, shaders, worlds, settings', 'Share modpack with friends, backup before updates'],
+              ['Settings Export', 'All launcher preferences and configurations as JSON', 'Sync settings between computers, backup customizations'],
+              ['Profile Sharing', 'Installation metadata without worlds (smaller files)', 'Distribute modpack setup without personal saves'],
+              ['Selective Export', 'Choose which components to include: mods only, configs only, etc.', 'Share just mod list or resource packs']
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'tip',
+            content: "Create installation templates by exporting with worlds excluded. Others can import and add their own worlds!"
+          }
         ],
       },
       {
         id: "performance-optimization",
         title: "Performance Optimization",
-        paragraphs: [
-          "Parallel Downloads: Multi-threaded content downloading for faster mod/pack installation.",
-          "Caching System: Intelligent caching for versions, mods, and metadata.",
-          "Virtual Scrolling: Efficient rendering for large lists without performance degradation.",
-          "Lazy Loading: On-demand content loading to reduce memory usage.",
-          "Memory Management: Configurable memory limits for the launcher itself.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Kable is built for speed and efficiency with multi-threaded operations, intelligent caching, and memory-conscious design."
+          },
+          {
+            type: 'feature-list',
+            features: [
+              {
+                name: "Parallel Downloads",
+                description: "Multi-threaded content downloading with configurable concurrency. Download mods, packs, and game files simultaneously for 5-10x faster installation."
+              },
+              {
+                name: "Intelligent Caching",
+                description: "Version manifests, mod metadata, and texture data cached locally. Reduces network requests and speeds up repeated operations."
+              },
+              {
+                name: "Virtual Scrolling",
+                description: "Efficiently render large lists (thousands of mods, logs, worlds) by only rendering visible items. Smooth 60fps scrolling even with 10,000+ items."
+              },
+              {
+                name: "Lazy Loading",
+                description: "Content loaded on-demand as you navigate. Launcher starts instantly without loading everything upfront."
+              },
+              {
+                name: "Memory Management",
+                description: "Configurable memory limits prevent the launcher from consuming excessive RAM during long sessions."
+              },
+              {
+                name: "Binary Diffing",
+                description: "Only download changed portions of updated files instead of full re-downloads. Saves bandwidth and time."
+              }
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'info',
+            content: "Kable typically uses 100-300MB RAM while idle and 200-500MB during active downloads—far less than browser-based launchers!"
+          }
         ],
       },
       {
         id: "security-privacy",
         title: "Security & Privacy",
-        paragraphs: [
-          "Local Data Storage: All data stored locally on your machine, no cloud requirements.",
-          "Secure Token Storage: Encrypted Microsoft authentication tokens.",
-          "No Analytics: No data collection, tracking, or telemetry by the launcher.",
-          "Open Source Transparency: Full source code available for security audit.",
-          "Network Request Transparency: All network requests logged and visible in debug mode.",
+        content: [
+          {
+            type: 'paragraph',
+            content: "Your privacy is paramount. Kable is designed with privacy-first principles and transparent security practices."
+          },
+          {
+            type: 'table',
+            headers: ['Privacy Feature', 'Implementation'],
+            rows: [
+              ['Local Data Storage', 'All installations, mods, configs, and settings stored locally. No cloud storage or syncing'],
+              ['Secure Token Storage', 'Microsoft authentication tokens encrypted with OS-level security (DPAPI on Windows)'],
+              ['No Analytics', 'Zero telemetry, tracking, or usage data collection. Kable never phones home except for updates'],
+              ['Open Source', 'Full source code available on GitHub for security audits and transparency'],
+              ['Network Transparency', 'All network requests logged in debug mode. See exactly what Kable communicates'],
+              ['No Third-Party Scripts', 'No advertising networks, tracking pixels, or external scripts embedded']
+            ]
+          },
+          {
+            type: 'note',
+            noteType: 'info',
+            content: "Kable only connects to: Mojang (version manifests), Microsoft (authentication), and Modrinth (mod downloads). That's it!"
+          }
         ],
       },
     ],
