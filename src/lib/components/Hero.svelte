@@ -327,6 +327,7 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
+    padding-right: 0.1em;
   }
 
   .hero-subtitle {
