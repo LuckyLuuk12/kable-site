@@ -147,7 +147,7 @@
           </svg>
         </a>
       {/if}
-      <a href="/wiki" class="btn-secondary"> Learn More </a>
+      <a href="/why-kable" class="btn-secondary"> Learn More </a>
     </div>
   </div>
 

@@ -75,7 +75,7 @@
         href="https://github.com/LuckyLuuk12/kable"
         class="nav-link"
         target="_blank"
-        rel="noopener">GitHub</a
+        rel="noopener noreferrer">GitHub</a
       >
     </div>
 

@@ -88,7 +88,7 @@
         <a
           href="https://github.com/LuckyLuuk12/kable/releases"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           class="link-button"
         >
           View Releases on GitHub
@@ -134,7 +134,7 @@
               <a
                 href={selectedRelease.htmlUrl}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 class="github-link"
               >
                 <svg
@@ -160,7 +160,7 @@
                   <a
                     href={info.url}
                     target="_blank"
-                    rel="noopener"
+                    rel="noopener noreferrer"
                     class="platform-card"
                   >
                     <div class="platform-info">

@@ -162,6 +162,11 @@
             >enjoyable</em
           >.
         </p>
+        <p>
+          <a href="/why-kable"
+            >Read more about how I fixed these issues with Kable →</a
+          >
+        </p>
       </div>
 
       <div class="content-card card-full">
@@ -252,7 +257,7 @@
             <a
               href="https://github.com/LuckyLuuk12/kable"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               class="link-button"
             >
               <svg
@@ -271,7 +276,7 @@
             <a
               href="https://github.com/LuckyLuuk12/kable/issues"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               class="link-button"
             >
               Report an Issue
@@ -279,7 +284,7 @@
             <a
               href="https://github.com/LuckyLuuk12"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               class="link-button"
             >
               GitHub Profile

@@ -15,6 +15,7 @@
         <a href="/">Home</a>
         <a href="/releases">Releases</a>
         <a href="/wiki">Documentation</a>
+        <a href="/faq">FAQ</a>
         <a href="/about">About</a>
       </nav>
     </div>
@@ -25,7 +26,7 @@
         <a
           href="https://github.com/LuckyLuuk12/kable"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -43,9 +44,24 @@
         <a
           href="https://github.com/LuckyLuuk12/kable/issues"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
         >
           Report Issue
+        </a>
+        <a
+          href="https://github.com/LuckyLuuk12/kable/security/advisories"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Report Vulnerability
+        </a>
+        <a
+          href="https://discord.gg/qRTevFvHbx"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="fa-brands fa-discord"></i>
+          Discord
         </a>
       </nav>
     </div>
