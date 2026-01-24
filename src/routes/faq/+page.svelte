@@ -77,6 +77,34 @@
     content="Frequently asked questions about Kable Launcher, the best open-source Minecraft launcher for developers and modders. Get answers about installation, features, mod support, and more."
   />
 
+  <!-- Open Graph -->
+  <meta
+    property="og:title"
+    content="FAQ - Kable Launcher | Frequently Asked Questions"
+  />
+  <meta
+    property="og:description"
+    content="Get answers to common questions about Kable Launcher, installation, features, mod support, safety, and more. Free Minecraft launcher for developers."
+  />
+  <meta property="og:url" content="https://kable.kablan.nl/faq" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://kable.kablan.nl/og-image.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta
+    name="twitter:title"
+    content="FAQ - Kable Launcher | Frequently Asked Questions"
+  />
+  <meta
+    name="twitter:description"
+    content="Get answers to common questions about Kable Launcher, installation, features, mod support, safety, and more."
+  />
+  <meta name="twitter:image" content="https://kable.kablan.nl/og-image.png" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://kable.kablan.nl/faq" />
+
   <!-- FAQ Schema for rich snippets -->
   {@html `<script type="application/ld+json">
     {

@@ -111,6 +111,42 @@
   }
 </script>
 
+<svelte:head>
+  <title>About Kable Launcher - Developer & Creator Story</title>
+  <meta
+    name="description"
+    content="Learn about Kable Launcher, the open-source Minecraft launcher built by Luuk Kablan. Discover the story, technology, and philosophy behind Kable."
+  />
+
+  <!-- Open Graph -->
+  <meta
+    property="og:title"
+    content="About Kable Launcher - Developer & Creator Story"
+  />
+  <meta
+    property="og:description"
+    content="Meet Luuk Kablan and learn about the technology and philosophy behind Kable, the developer-focused Minecraft launcher."
+  />
+  <meta property="og:url" content="https://kable.kablan.nl/about" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://kable.kablan.nl/og-image.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta
+    name="twitter:title"
+    content="About Kable Launcher - Developer & Creator Story"
+  />
+  <meta
+    name="twitter:description"
+    content="Meet Luuk Kablan and learn about the technology and philosophy behind Kable, the developer-focused Minecraft launcher."
+  />
+  <meta name="twitter:image" content="https://kable.kablan.nl/og-image.png" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://kable.kablan.nl/about" />
+</svelte:head>
+
 <PageLayout>
   <div class="about-page">
     <div class="about-hero">

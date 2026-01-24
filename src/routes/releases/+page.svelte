@@ -75,6 +75,42 @@
   }
 </script>
 
+<svelte:head>
+  <title>Download Kable Launcher - Latest Releases & Versions</title>
+  <meta
+    name="description"
+    content="Download the latest version of Kable Launcher for Windows, macOS, and Linux. View release notes, changelog, and installation files for all versions."
+  />
+
+  <!-- Open Graph -->
+  <meta
+    property="og:title"
+    content="Download Kable Launcher - Latest Releases & Versions"
+  />
+  <meta
+    property="og:description"
+    content="Download Kable Launcher for Windows, macOS, and Linux. Free, open-source Minecraft launcher with advanced features for developers."
+  />
+  <meta property="og:url" content="https://kable.kablan.nl/releases" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://kable.kablan.nl/og-image.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta
+    name="twitter:title"
+    content="Download Kable Launcher - Latest Releases & Versions"
+  />
+  <meta
+    name="twitter:description"
+    content="Download Kable Launcher for Windows, macOS, and Linux. Free, open-source Minecraft launcher with advanced features."
+  />
+  <meta name="twitter:image" content="https://kable.kablan.nl/og-image.png" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://kable.kablan.nl/releases" />
+</svelte:head>
+
 <PageLayout showAds={false}>
   <div class="builds-page">
     {#if loading}

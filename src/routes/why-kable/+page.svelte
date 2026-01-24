@@ -168,6 +168,34 @@
     name="description"
     content="Discover why Kable is the best Minecraft launcher for developers and modders. Compare features, performance, and capabilities against other popular launchers. Free, open-source, and built for technical users."
   />
+
+  <!-- Open Graph -->
+  <meta
+    property="og:title"
+    content="Why Choose Kable - Best Minecraft Launcher for Developers"
+  />
+  <meta
+    property="og:description"
+    content="Compare Kable with other Minecraft launchers. Advanced logging, symlink management, mod management, and developer-focused features. Free and open-source."
+  />
+  <meta property="og:url" content="https://kable.kablan.nl/why-kable" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://kable.kablan.nl/og-image.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta
+    name="twitter:title"
+    content="Why Choose Kable - Best Minecraft Launcher for Developers"
+  />
+  <meta
+    name="twitter:description"
+    content="Compare Kable with other Minecraft launchers. Advanced logging, symlink management, mod management, and developer-focused features."
+  />
+  <meta name="twitter:image" content="https://kable.kablan.nl/og-image.png" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://kable.kablan.nl/why-kable" />
 </svelte:head>
 
 <PageLayout>
