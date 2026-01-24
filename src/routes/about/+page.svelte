@@ -4,7 +4,8 @@
 
   let contentRef: HTMLDivElement | null = null;
   let lastUpdate = 0;
-  const COOLDOWN = 100; // ms
+  const COOLDOWN = 250; // ms - increased from 100ms
+  let rafId: number | null = null;
 
   onMount(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -14,77 +15,88 @@
       if (now - lastUpdate < COOLDOWN) return;
       lastUpdate = now;
 
-      // Remove all previous highlights
-      const highlighted = contentRef.querySelectorAll(".word-highlight");
-      highlighted.forEach((el) => {
-        const parent = el.parentNode;
-        if (parent) {
-          parent.replaceChild(
-            document.createTextNode(el.textContent || ""),
-            el,
-          );
-          parent.normalize();
-        }
-      });
+      // Cancel any pending animation frame
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
 
-      // Find closest words
-      const textNodes = getTextNodes(contentRef);
-      const mousePos = { x: e.clientX, y: e.clientY };
-
-      const wordsWithDistance = textNodes
-        .flatMap((node) => {
-          const words = (node.textContent || "")
-            .split(/\s+/)
-            .filter((w) => w.length > 0);
-          const range = document.createRange();
-          const parent = node.parentElement;
-          if (!parent) return [];
-
-          return words.map((word, idx) => {
-            range.setStart(node, node.textContent!.indexOf(word));
-            range.setEnd(node, node.textContent!.indexOf(word) + word.length);
-            const rect = range.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const distance = Math.sqrt(
-              Math.pow(centerX - mousePos.x, 2) +
-                Math.pow(centerY - mousePos.y, 2),
+      // Use requestAnimationFrame for better performance
+      rafId = requestAnimationFrame(() => {
+        // Remove all previous highlights
+        const highlighted = contentRef?.querySelectorAll(".word-highlight");
+        highlighted?.forEach((el) => {
+          const parent = el.parentNode;
+          if (parent) {
+            parent.replaceChild(
+              document.createTextNode(el.textContent || ""),
+              el,
             );
-            return { node, word, distance, rect, parent };
-          });
-        })
-        .sort((a, b) => a.distance - b.distance)
-        .slice(0, 3);
+            parent.normalize();
+          }
+        });
 
-      // Highlight closest words
-      wordsWithDistance.forEach(({ node, word, parent }) => {
-        const text = node.textContent || "";
-        const idx = text.indexOf(word);
-        if (idx === -1) return;
+        // Find closest words
+        const textNodes = getTextNodes(contentRef);
+        const mousePos = { x: e.clientX, y: e.clientY };
 
-        const before = text.substring(0, idx);
-        const after = text.substring(idx + word.length);
+        const wordsWithDistance = textNodes
+          .flatMap((node) => {
+            const words = (node.textContent || "")
+              .split(/\s+/)
+              .filter((w) => w.length > 0);
+            const range = document.createRange();
+            const parent = node.parentElement;
+            if (!parent) return [];
 
-        const span = document.createElement("span");
-        span.className = "word-highlight";
-        span.textContent = word;
+            return words.map((word, idx) => {
+              range.setStart(node, node.textContent!.indexOf(word));
+              range.setEnd(node, node.textContent!.indexOf(word) + word.length);
+              const rect = range.getBoundingClientRect();
+              const centerX = rect.left + rect.width / 2;
+              const centerY = rect.top + rect.height / 2;
+              const distance = Math.sqrt(
+                Math.pow(centerX - mousePos.x, 2) +
+                  Math.pow(centerY - mousePos.y, 2),
+              );
+              return { node, word, distance, rect, parent };
+            });
+          })
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, 3);
 
-        const parentNode = node.parentNode;
-        if (!parentNode) return;
+        // Highlight closest words
+        wordsWithDistance.forEach(({ node, word, parent }) => {
+          const text = node.textContent || "";
+          const idx = text.indexOf(word);
+          if (idx === -1) return;
 
-        if (before)
-          parentNode.insertBefore(document.createTextNode(before), node);
-        parentNode.insertBefore(span, node);
-        if (after)
-          parentNode.insertBefore(document.createTextNode(after), node);
-        parentNode.removeChild(node);
+          const before = text.substring(0, idx);
+          const after = text.substring(idx + word.length);
+
+          const span = document.createElement("span");
+          span.className = "word-highlight";
+          span.textContent = word;
+
+          const parentNode = node.parentNode;
+          if (!parentNode) return;
+
+          if (before)
+            parentNode.insertBefore(document.createTextNode(before), node);
+          parentNode.insertBefore(span, node);
+          if (after)
+            parentNode.insertBefore(document.createTextNode(after), node);
+          parentNode.removeChild(node);
+        });
       });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
     };
   });
 

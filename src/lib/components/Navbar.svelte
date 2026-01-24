@@ -6,32 +6,40 @@
 
   let scrolled = $state(false);
   let mobileMenuOpen = $state(false);
+  let whyKableDropdownOpen = $state(false);
 
+  // Consolidated effect to prevent multiple scroll listeners
   $effect(() => {
-    if (browser) {
-      const handleScroll = () => {
-        if ($page.url.pathname.startsWith("/wiki")) {
-          scrolled = true;
-        } else {
-          scrolled = window.scrollY > 50;
-        }
-      };
+    if (!browser) return;
 
-      // Run immediately to set initial state
-      handleScroll();
+    const handleScroll = () => {
+      if ($page.url.pathname.startsWith("/wiki")) {
+        scrolled = true;
+      } else {
+        scrolled = window.scrollY > 50;
+      }
+    };
 
-      window.addEventListener("scroll", handleScroll);
-      return () => window.removeEventListener("scroll", handleScroll);
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(".dropdown-container")) {
+        whyKableDropdownOpen = false;
+      }
+    };
+
+    // Run immediately to set initial state
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    if (whyKableDropdownOpen) {
+      document.addEventListener("click", handleClick);
     }
-  });
 
-  // React to page changes
-  $effect(() => {
-    if ($page.url.pathname.startsWith("/wiki")) {
-      scrolled = true;
-    } else if (browser) {
-      scrolled = window.scrollY > 50;
-    }
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("click", handleClick);
+    };
   });
 </script>
 
@@ -56,11 +64,73 @@
       <a href="/" class="nav-link" class:active={$page.url.pathname === "/"}
         >Home</a
       >
-      <a
-        href="/about"
-        class="nav-link"
-        class:active={$page.url.pathname.startsWith("/about")}>About</a
-      >
+
+      <!-- Why Kable Dropdown -->
+      <div class="dropdown-container">
+        <button
+          class="nav-link dropdown-trigger"
+          class:active={$page.url.pathname.startsWith("/why-kable") ||
+            $page.url.pathname.startsWith("/compare") ||
+            $page.url.pathname.startsWith("/blog")}
+          onclick={(e) => {
+            e.stopPropagation();
+            whyKableDropdownOpen = !whyKableDropdownOpen;
+          }}
+        >
+          Why Kable?
+          <svg
+            class="dropdown-arrow"
+            class:open={whyKableDropdownOpen}
+            width="12"
+            height="8"
+            viewBox="0 0 12 8"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 1.5L6 6.5L11 1.5"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
+        {#if whyKableDropdownOpen}
+          <div class="dropdown-menu">
+            <div class="dropdown-section">
+              <span class="dropdown-section-title">Overview</span>
+              <a href="/why-kable" class="dropdown-item">Why Kable?</a>
+            </div>
+
+            <div class="dropdown-section">
+              <span class="dropdown-section-title">Comparisons</span>
+              <a href="/compare/prism-launcher" class="dropdown-item"
+                >vs Prism Launcher</a
+              >
+              <a href="/compare/multimc" class="dropdown-item">vs MultiMC</a>
+              <a href="/compare/official" class="dropdown-item"
+                >vs Official Launcher</a
+              >
+            </div>
+
+            <div class="dropdown-section">
+              <span class="dropdown-section-title">Technical Articles</span>
+              <a href="/blog/launcher-performance" class="dropdown-item"
+                >Launcher Performance</a
+              >
+              <a href="/blog/developer-workflows" class="dropdown-item"
+                >Developer Workflows</a
+              >
+              <a href="/blog/tauri-architecture" class="dropdown-item"
+                >Why Tauri?</a
+              >
+            </div>
+          </div>
+        {/if}
+      </div>
+
       <a
         href="/releases"
         class="nav-link"
@@ -214,6 +284,94 @@
     box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
   }
 
+  /* Dropdown Styles */
+  .dropdown-container {
+    position: relative;
+  }
+
+  .dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .dropdown-arrow {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dropdown-arrow.open {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 1rem);
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 240px;
+    background: rgba(20, 20, 24, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: var(--border-radius);
+    padding: 0.75rem;
+    box-shadow:
+      0 0 0 1px rgba(139, 92, 246, 0.1),
+      0 8px 32px -8px rgba(0, 0, 0, 0.5),
+      0 4px 16px -4px rgba(0, 0, 0, 0.3);
+    animation: dropdownSlideIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1001;
+  }
+
+  @keyframes dropdownSlideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  .dropdown-section {
+    padding: 0.5rem 0;
+  }
+
+  .dropdown-section:not(:last-child) {
+    border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+  }
+
+  .dropdown-section-title {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--placeholder);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 0.75rem 0.25rem;
+  }
+
+  .dropdown-item {
+    display: block;
+    color: var(--text);
+    text-decoration: none;
+    font-size: var(--font-size-normal);
+    padding: 0.625rem 0.75rem;
+    border-radius: var(--border-radius-small);
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dropdown-item:hover {
+    background: rgba(139, 92, 246, 0.15);
+    color: var(--primary-400);
+    transform: translateX(4px);
+  }
+
   .install-btn {
     padding: 0.75rem 1.75rem;
     background: rgba(244, 244, 245, 0.95);
@@ -251,6 +409,8 @@
       opacity: 0;
       pointer-events: none;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      max-height: calc(100vh - 80px);
+      overflow-y: auto;
     }
 
     .nav-links.show {
@@ -264,6 +424,30 @@
       width: 100%;
       text-align: center;
       padding: 1rem;
+    }
+
+    /* Mobile dropdown styles */
+    .dropdown-container {
+      width: 100%;
+    }
+
+    .dropdown-trigger {
+      width: 100%;
+      justify-content: center;
+      font-size: 1.1rem;
+      padding: 1rem;
+    }
+
+    .dropdown-menu {
+      position: static;
+      transform: none;
+      margin-top: 0.5rem;
+      animation: none;
+      width: 100%;
+    }
+
+    .dropdown-item {
+      text-align: left;
     }
 
     .install-btn {

@@ -15,9 +15,53 @@
   <!-- Why Kable (Comparison Page) -->
   <url>
     <loc>https://kable.kablan.nl/why-kable</loc>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-01-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  
+  <!-- Comparison Pages -->
+  <url>
+    <loc>https://kable.kablan.nl/compare/prism-launcher</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <url>
+    <loc>https://kable.kablan.nl/compare/multimc</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <url>
+    <loc>https://kable.kablan.nl/compare/official</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- Blog/Technical Articles -->
+  <url>
+    <loc>https://kable.kablan.nl/blog/launcher-performance</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://kable.kablan.nl/blog/developer-workflows</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://kable.kablan.nl/blog/tauri-architecture</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   
   <!-- FAQ Page -->

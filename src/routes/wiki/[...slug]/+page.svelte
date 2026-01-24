@@ -56,23 +56,23 @@
   $: {
     flatWiki = flattenWiki(wikiContent);
     const currentPathStr = slugArr.join("/");
-    
+
     // Reset visibleSectionId when navigating to a new page
     if (currentPathStr !== lastPathStr) {
       visibleSectionId = null;
       lastPathStr = currentPathStr;
     }
-    
+
     // If we have a visible section from scroll detection, use that
     if (visibleSectionId) {
-      currentIndex = flatWiki.findIndex(n => n.id === visibleSectionId);
+      currentIndex = flatWiki.findIndex((n) => n.id === visibleSectionId);
     } else {
       // Otherwise use the URL path
       currentIndex = flatWiki.findIndex(
         (n) => n.path.join("/") === currentPathStr,
       );
     }
-    
+
     prevNode = currentIndex > 0 ? flatWiki[currentIndex - 1] : null;
     nextNode =
       currentIndex >= 0 && currentIndex < flatWiki.length - 1
@@ -112,11 +112,11 @@
           const elementId = mostVisible.target.id;
           if (elementId) {
             // Find the matching section in flatWiki
-            const parts = elementId.split('-');
+            const parts = elementId.split("-");
             const sectionId = parts[parts.length - 1];
-            
+
             // Check if this section exists in our flat structure
-            const matchingSection = flatWiki.find(n => n.id === sectionId);
+            const matchingSection = flatWiki.find((n) => n.id === sectionId);
             if (matchingSection) {
               visibleSectionId = sectionId;
             }
@@ -126,12 +126,12 @@
       {
         threshold: [0, 0.15, 0.3, 0.5, 0.7, 1.0],
         rootMargin: "-20% 0px -30% 0px", // Focus on upper-middle of viewport
-      }
+      },
     );
 
     // Observe all sections and subsections
     const observeElements = () => {
-      const sections = document.querySelectorAll('.subsection, .nested-item');
+      const sections = document.querySelectorAll(".subsection, .nested-item");
       sections.forEach((section) => {
         if (section.id && observer) {
           observer.observe(section);
@@ -144,10 +144,13 @@
 
     // Re-observe when content changes
     const mutationObserver = new MutationObserver(() => {
-      setTimeout(observeElements, 100);
+      // Debounce the re-observation to prevent excessive calls
+      clearTimeout(mutationTimer);
+      mutationTimer = setTimeout(observeElements, 200);
     });
 
-    const articleElement = document.querySelector('.wiki-article');
+    let mutationTimer: number;
+    const articleElement = document.querySelector(".wiki-article");
     if (articleElement) {
       mutationObserver.observe(articleElement, {
         childList: true,
@@ -157,6 +160,7 @@
 
     return () => {
       mutationObserver.disconnect();
+      if (mutationTimer) clearTimeout(mutationTimer);
     };
   });
 
