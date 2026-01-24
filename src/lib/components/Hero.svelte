@@ -64,6 +64,7 @@
 
   let activeTab = $state("launch");
   let scrollY = $state(0);
+  let isMobile = $state(false);
   let downloadUrl = $state<string | null>(null);
   const detectedPlatformKey = detectPlatform();
   const platformLabel = labelFor(detectedPlatformKey);
@@ -74,23 +75,38 @@
 
   $effect(() => {
     if (browser) {
+      const updateMobile = () => {
+        isMobile = window.innerWidth <= 768;
+      };
+
+      updateMobile();
+      window.addEventListener("resize", updateMobile, { passive: true });
+
       const handleScroll = () => {
         scrollY = window.scrollY;
       };
       window.addEventListener("scroll", handleScroll, { passive: true });
-      return () => window.removeEventListener("scroll", handleScroll);
+
+      return () => {
+        window.removeEventListener("resize", updateMobile);
+        window.removeEventListener("scroll", handleScroll);
+      };
     }
   });
 
-  // Calculate parallax and fade effects
-  const heroTransform = $derived(`translateY(${scrollY * 0.5}px)`);
-  const heroOpacity = $derived(Math.max(0, 1 - scrollY / 600));
+  // Calculate parallax and fade effects (disabled on mobile)
+  const heroTransform = $derived(
+    isMobile ? "translateY(0px)" : `translateY(${scrollY * 0.5}px)`,
+  );
+  const heroOpacity = $derived(isMobile ? 1 : Math.max(0, 1 - scrollY / 600));
   // Cap scaling at 1.1 (stops at scrollY = 500)
-  const scale = $derived(Math.min(1.1, 1 + scrollY * 0.0003));
+  const scale = $derived(isMobile ? 1 : Math.min(1.1, 1 + scrollY * 0.0003));
   // Stop preview movement at scrollY 300 to keep it overlapped with tabs
   const cappedScrollY = $derived(Math.min(scrollY, 300));
   const previewTransform = $derived(
-    `translateY(${cappedScrollY * -0.15}px) scale(${scale})`,
+    isMobile
+      ? "translateX(-50%) scale(1)"
+      : `translateX(-50%) translateY(${cappedScrollY * -0.15}px) scale(${scale})`,
   );
 </script>
 
@@ -151,50 +167,52 @@
     </div>
   </div>
 
-  <div class="preview-section" style="transform: {previewTransform};">
-    <div class="preview-container">
-      {#each tabs as tab}
-        {#if activeTab === tab.id}
-          <div class="preview-content">
-            <enhanced:img
-              src={tab.image}
-              alt="{tab.label} view"
-              class="preview-image"
-            />
-          </div>
-        {/if}
-      {/each}
+  <!-- Preview and tabs container with relative positioning -->
+  <div class="preview-tabs-container">
+    <div class="preview-section" style="transform: {previewTransform};">
+      <div class="preview-container">
+        {#each tabs as tab}
+          {#if activeTab === tab.id}
+            <div class="preview-content">
+              <enhanced:img
+                src={tab.image}
+                alt="{tab.label} view"
+                class="preview-image"
+              />
+            </div>
+          {/if}
+        {/each}
+      </div>
     </div>
+
+    <!-- Tabs wrapper positioned absolutely at bottom of container -->
+    <section class="tabs-wrapper">
+      <div class="preview-tabs">
+        {#each tabs as tab}
+          <button
+            class="tab"
+            class:active={activeTab === tab.id}
+            onclick={() => (activeTab = tab.id)}
+          >
+            {tab.label}
+          </button>
+        {/each}
+      </div>
+      <div class="preview-description-wrapper">
+        <p class="preview-description">
+          {tabs.find((t) => t.id === activeTab)?.description}
+        </p>
+      </div>
+    </section>
   </div>
 </div>
 
-<!-- Full-width tabs container outside hero -->
-<section class="tabs-wrapper">
-  <div class="preview-tabs">
-    {#each tabs as tab}
-      <button
-        class="tab"
-        class:active={activeTab === tab.id}
-        onclick={() => (activeTab = tab.id)}
-      >
-        {tab.label}
-      </button>
-    {/each}
-  </div>
-  <div class="preview-description-wrapper">
-    <p class="preview-description">
-      {tabs.find((t) => t.id === activeTab)?.description}
-    </p>
-  </div>
-</section>
-
 <style>
   .hero {
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 8rem 0 0;
+    padding: 9rem 0 0;
     position: relative;
     overflow: hidden;
     width: 100%;
@@ -405,20 +423,29 @@
     transform: translateY(-2px);
   }
 
+  .preview-tabs-container {
+    position: relative;
+    width: 100%;
+    height: 700px;
+    z-index: 2;
+  }
+
   .preview-section {
     max-width: 1200px;
-    max-height: 600px;
     width: 100%;
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 50%;
     z-index: 2;
-    will-change: transform;
-    padding: 0 2rem 4rem;
+    padding: 0 2rem;
   }
 
   .tabs-wrapper {
-    width: 100vw;
-    position: relative;
-    margin-top: -8rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     z-index: 3;
     border-top: 1px solid rgba(113, 113, 122, 0.2);
     border-bottom: 1px solid rgba(113, 113, 122, 0.2);
@@ -528,13 +555,8 @@
   }
 
   @media (max-width: 768px) {
-    .hero {
-      padding: 6rem 0 4rem;
-      min-height: 100vh;
-    }
-
     .hero-content {
-      margin-bottom: 3rem;
+      margin: 2rem 1rem;
     }
 
     .announcement-badge {
@@ -562,8 +584,26 @@
       justify-content: center;
     }
 
+    .preview-tabs-container {
+      height: auto;
+    }
+
+    .preview-section {
+      position: relative;
+      left: auto;
+      transform: none !important;
+      padding: 0 0.5rem 2rem;
+    }
+
+    .tabs-wrapper {
+      position: relative;
+      border: none;
+      margin-top: -2rem;
+    }
+
     .preview-tabs {
       gap: 0.5rem;
+      padding: 1rem;
     }
 
     .tab {
@@ -573,6 +613,10 @@
 
     .preview-container {
       padding: 0.75rem;
+    }
+
+    .preview-description-wrapper {
+      padding: 1rem;
     }
 
     .cloud-left,

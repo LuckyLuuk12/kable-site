@@ -81,12 +81,13 @@
 
   .feature-cards-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
     gap: var(--huge);
   }
 
   .feature-card {
     padding: var(--huge);
+    min-width: 0;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--border-radius-large);
@@ -104,6 +105,7 @@
     transition-delay: calc(var(--card-index, 0) * 0.1s);
     transform-origin: center center;
     perspective: 1000px;
+    text-wrap: wrap;
   }
 
   .feature-cards-section.visible .feature-card {

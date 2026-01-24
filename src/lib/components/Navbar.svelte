@@ -221,17 +221,24 @@
   .mobile-toggle {
     display: none;
     flex-direction: column;
+    gap: 6px;
     background: none;
     border: none;
     cursor: pointer;
+    padding: 2rem;
   }
 
   .mobile-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
     transition: all 0.3s ease;
   }
 
   .menu-open .mobile-toggle span:nth-child(1) {
-    transform: rotate(45deg) translate(8px, 8px);
+    transform: rotate(45deg) translate(7px, 6px);
   }
 
   .menu-open .mobile-toggle span:nth-child(2) {
@@ -239,7 +246,7 @@
   }
 
   .menu-open .mobile-toggle span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -7px);
+    transform: rotate(-45deg) translate(5px, -5px);
   }
 
   .nav-links {
@@ -397,7 +404,7 @@
 
     .nav-links {
       position: fixed;
-      top: 80px;
+      top: 70px;
       left: 0;
       right: 0;
       flex-direction: column;
