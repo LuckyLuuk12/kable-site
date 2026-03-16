@@ -231,13 +231,14 @@
       <h2>Who Should NOT Use a Developer Launcher</h2>
       <p>
         If you primarily play modpacks and rarely modify your setup, a
-        developer-focused launcher is overkill. Prism Launcher's stability and
-        comprehensive feature set is better for that use case.
+        developer-focused launcher may be more than you need. Prism Launcher is
+        known for stability and a broad feature surface for that use case.
       </p>
       <p>
         Developer launchers optimize for iteration speed at the cost of some
-        maturity and edge-case handling. That trade-off only makes sense if
-        you're iterating constantly.
+        maturity and edge-case handling. Kable makes that trade-off to maximize
+        iteration speed, and many users still prefer it for everyday modded
+        gameplay because of its performance and workflow advantages.
       </p>
     </div>
 

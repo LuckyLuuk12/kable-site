@@ -206,17 +206,16 @@
     </div>
 
     <div>
-      <h2>When You Should Use a Different Launcher</h2>
+      <h2>Understanding the Trade-offs</h2>
       <p>
-        If you're a casual player who values stability over performance, Prism
-        Launcher's maturity is a better fit. If you need a launcher that "just
-        works" across every Linux distro and edge case, MultiMC's conservative
-        approach is safer.
+        Prism and MultiMC emphasize long-term maturity and conservative updates.
+        Kable intentionally prioritizes performance, faster iteration, and a
+        modern developer experience.
       </p>
       <p>
-        Kable is for users who value performance and are willing to tolerate
-        occasional rough edges in exchange for a faster, leaner tool optimized
-        for their development workflow.
+        If your priority is speed, configurability, and quality-of-life
+        improvements, Kable is the strongest fit. If your priority is maximum
+        conservatism, legacy launchers remain a known baseline.
       </p>
     </div>
 

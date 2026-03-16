@@ -15,14 +15,12 @@
     <h1>Kable vs Prism Launcher</h1>
 
     <div class="intro-section">
-      <h2>Who should use Prism Launcher instead of Kable?</h2>
+      <h2>How Prism Launcher compares</h2>
       <p>
-        Prism Launcher is better for you if you're a casual player who wants a
-        mature, stable launcher with a proven track record. If you primarily
-        play modpacks, don't frequently switch between mod versions, and prefer
-        a familiar Qt interface, Prism is the safer choice. It has years of
-        development, extensive community testing, and comprehensive
-        documentation.
+        Prism Launcher is a mature, stable launcher with a proven track record,
+        broad community testing, and comprehensive documentation. It follows a
+        familiar Qt-style experience and remains popular in the modpack
+        community.
       </p>
 
       <h2>Who should use Kable?</h2>
@@ -74,8 +72,8 @@
         touch.
       </p>
       <p>
-        If you configure an instance once and play for months, Prism's thorough
-        UI is better. If you create test instances daily, Kable's streamlined
+        Prism offers a thorough UI, while Kable focuses on making repetitive
+        actions faster. If you create test instances daily, Kable's streamlined
         workflow saves significant time.
       </p>
     </div>
@@ -135,7 +133,8 @@
         </li>
       </ul>
 
-      <h2>Where Prism Wins</h2>
+      <strong>Modpack support:</strong> Broad compatibility with obscure
+      modpacks
       <ul>
         <li>
           <strong>Maturity:</strong> Years of community testing and bug fixes
@@ -184,11 +183,10 @@
       <div class="faq-item">
         <h3>Should I switch from Prism to Kable?</h3>
         <p>
-          Only if you're a mod developer or frequently test different mod
-          configurations. If you mainly play modpacks and rarely change your
-          setup, Prism's stability and maturity make it the better choice. Kable
-          is optimized for a specific workflow — if that's not your workflow,
-          don't switch.
+          If you want faster startup, lower memory usage, and a launcher built
+          around rapid iteration, yes. Kable is optimized for that workflow and
+          still works great for everyday modded play, while Prism remains a
+          stable long-running alternative.
         </p>
       </div>
 

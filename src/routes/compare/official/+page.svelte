@@ -15,13 +15,11 @@
     <h1>Kable vs Official Minecraft Launcher</h1>
 
     <div class="intro-section">
-      <h2>Who should use the Official Launcher instead of Kable?</h2>
+      <h2>How the Official Launcher compares</h2>
       <p>
-        The official Minecraft launcher is perfect for vanilla players and
-        casual gamers. If you only play the base game, don't use mods, and want
-        the simplest possible experience with guaranteed compatibility, stick
-        with the official launcher. It's maintained by Mojang and receives
-        priority support for new releases.
+        The official Minecraft launcher is the default Mojang experience with
+        day-one release support and a simple vanilla-first setup. It is widely
+        recognized and tightly aligned with Microsoft's ecosystem.
       </p>
 
       <h2>Who should use Kable?</h2>
@@ -125,7 +123,7 @@
         </li>
       </ul>
 
-      <h2>Where Official Launcher Wins</h2>
+      <h2>Where Official Launcher Is Strong</h2>
       <ul>
         <li>
           <strong>Vanilla support:</strong> Day-one support for new Minecraft releases
@@ -172,10 +170,10 @@
       <div class="faq-item">
         <h3>Why would I switch from the official launcher?</h3>
         <p>
-          If you only play vanilla Minecraft, don't switch. The official
-          launcher is fine for that. Switch to Kable if you need multiple
-          instances, mod management, or developer tooling. It's a tool for
-          technical users, not a general replacement.
+          Kable gives you stronger instance isolation, modern mod management,
+          and far better performance with lower memory usage. If you want more
+          control and better quality-of-life features, Kable is a compelling
+          upgrade from the official launcher.
         </p>
       </div>
 
@@ -183,10 +181,9 @@
         <h3>Will Kable break when Minecraft updates?</h3>
         <p>
           New Minecraft versions may take a day or two to be fully supported in
-          Kable, whereas the official launcher gets same-day support. If you
-          need to play new snapshots the second they release, use the official
-          launcher. For stable releases and mod development, Kable updates
-          quickly.
+          Kable, because we prioritize stable rollout quality. For stable
+          releases and mod development workflows, Kable updates quickly and
+          remains our recommended launcher experience.
         </p>
       </div>
     </div>

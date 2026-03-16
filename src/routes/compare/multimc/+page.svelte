@@ -15,13 +15,11 @@
     <h1>Kable vs MultiMC</h1>
 
     <div class="intro-section">
-      <h2>Who should use MultiMC instead of Kable?</h2>
+      <h2>How MultiMC compares</h2>
       <p>
-        MultiMC is ideal if you want a no-frills, stable launcher that's been
-        around for over a decade. If you value proven reliability, don't need
-        cutting-edge features, and prefer a classic Qt interface, MultiMC is the
-        established choice. It's particularly good for users who set up
-        instances once and rarely modify them.
+        MultiMC is a no-frills, stability-first launcher with a classic Qt
+        interface and a long track record. It is familiar to many longtime
+        modded Minecraft users and keeps a conservative release cadence.
       </p>
 
       <h2>Who should use Kable?</h2>
@@ -65,8 +63,9 @@
         settings are accessible via keyboard shortcuts, not buried in menus.
       </p>
       <p>
-        If you only launch instances to play, MultiMC's approach is fine. If
-        you're writing mods, Kable's tooling saves meaningful time every day.
+        Even if you mostly play, Kable still gives you faster startup and a
+        cleaner workflow. If you're writing mods, Kable's tooling saves
+        meaningful time every day.
       </p>
     </div>
 
@@ -81,9 +80,10 @@
       <p>
         Kable iterates faster, adding features requested by the mod development
         community. The trade-off is that Kable is younger and hasn't had years
-        of edge-case testing. If you need a launcher that "just works" and never
-        breaks, MultiMC is safer. If you want features that actively improve
-        your workflow, Kable is worth the early-adopter risk.
+        of edge-case testing. MultiMC emphasizes long-cycle stability, while
+        Kable prioritizes fast iteration and modern developer workflows. For
+        users who value speed, configurability, and quality-of-life tooling,
+        Kable is the stronger fit.
       </p>
     </div>
 
@@ -103,7 +103,7 @@
         </li>
       </ul>
 
-      <h2>Where MultiMC Wins</h2>
+      <h2>Where MultiMC Is Strong</h2>
       <ul>
         <li>
           <strong>Maturity:</strong> Over a decade of development and community trust
@@ -143,10 +143,11 @@
       <div class="faq-item">
         <h3>Why not just use MultiMC?</h3>
         <p>
-          If you're a casual player or only occasionally modify instances,
-          MultiMC is the better choice. Kable targets a specific user: the
-          Fabric mod developer who launches instances dozens of times daily and
-          needs tooling that treats development as a first-class use case.
+          Kable is built to be the better day-to-day launcher experience, not
+          just for Fabric developers but also for users who care about startup
+          speed, cleaner instance management, and powerful quality-of-life
+          features. MultiMC remains a respected project, but Kable is designed
+          to move faster and deliver a more modern workflow.
         </p>
       </div>
 
